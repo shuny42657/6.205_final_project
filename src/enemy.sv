@@ -14,11 +14,32 @@ module enemy(
 	output logic finished_out, //asserted high for one clk cycle when the module exits busy state
 	output logic pixel_out //pixel output
 );
+logic busy_out_buffer;
 
 //patterns
 
 
 //24 arrows
+
+logic frame_top_out,frame_bottom_out,frame_right_out,frame_left_out;
+logic frame_top_pixel,frame_bottom_pixel,frame_right_pixel,frame_left_pixel;
+block_sprite #(128,16,256,256,12'hFFFFFF) frame_top(.is_fixed(1),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.in_sprite(frame_top_out),.pixel_out(frame_top_pixel));
+block_sprite #(16,128,256,256,12'hFFFFFF) frame_left(.is_fixed(1),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.in_sprite(frame_left_out),.pixel_out(frame_left_pixel));
+block_sprite #(128,16,368,256,12'hFFFFFF) frame_right(.is_fixed(1),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.in_sprite(frame_right_out),.pixel_out(frame_right_pixel));
+block_sprite #(16,128,256,368,12'hFFFFFF) frame_bottom(.is_fixed(1),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.in_sprite(frame_bottom_out),.pixel_out(frame_bottom_pixel));
+
+always_comb begin
+	if(busy_out_buffer)begin
+		if(frame_top_out)
+                	pixel_out = frame_top_pixel;
+        	if(frame_bottom_out)
+                	pixel_out = frame_bottom_pixel;
+        	if(frame_right_out)
+                	pixel_out = frame_right_pixel;
+        	if(frame_left_out)
+                	pixel_out = frame_left_pixel;
+	end
+end
 
 
 
@@ -29,10 +50,15 @@ always_ff @(posedge clk)begin
 		pixel_out <= 0
 	end
 
+	if(state_in == 4'b1000)begin
+		bust_out_buffer <= 1;
+	end
 	//output the pixel value from 24 arrows, heart, etc. 
 	//alpha blending
 	//interval control
 end
+
+assign busy_out = busy_out_buffer;
 endmodule
 `default_nettype wire
 
