@@ -17,9 +17,9 @@ logic[3:0] turn_out;
 
 logic enemy_busy_out;
 logic enemy_finish_out;
-logic[11:0] enemy_pixel_out
+logic[11:0] enemy_pixel_out;
 assign state_out = 4'b1000;
-
+assign turn_out = 4'b0000;
 enemy en(
 	.clk(clk),
 	.rst(rst),
@@ -36,7 +36,7 @@ enemy en(
 
 always_comb begin
 	case(state_out)
-		2'b1000:begin
+		4'b1000:begin
 			pixel_out = enemy_pixel_out;
 		end
 	endcase
