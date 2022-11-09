@@ -27,7 +27,7 @@ always_ff @(posedge clk)begin
 			end
 			2'b01:begin
 				x <= 512;
-				y <= 0;
+				y <= 720;
 			end
 			2'b10:begin
 				x <= 512;
@@ -45,7 +45,7 @@ always_ff @(posedge clk)begin
                                 	y <= y + 4;
                         	end
                         	2'b01:begin
-                                	y <= y + 4;
+                                	y <= y - 4;
                         	end
                         	2'b10:begin
                                 	y <= y + 4;
