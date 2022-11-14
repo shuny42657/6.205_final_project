@@ -1,0 +1,512 @@
+$date
+	Mon Nov 14 18:57:21 2022
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module enemy_tb $end
+$var wire 12 ! pixel_out [11:0] $end
+$var wire 1 " finished_out $end
+$var wire 1 # busy_out $end
+$var reg 1 $ clk $end
+$var reg 11 % hcount_in [10:0] $end
+$var reg 2 & rotate_in [1:0] $end
+$var reg 1 ' rst $end
+$var reg 4 ( state_in [3:0] $end
+$var reg 4 ) turn_in [3:0] $end
+$var reg 10 * vcount_in [9:0] $end
+$scope module uut $end
+$var wire 7 + arrow_count_first [6:0] $end
+$var wire 1 # busy_out $end
+$var wire 1 $ clk $end
+$var wire 11 , hcount_in [10:0] $end
+$var wire 2 - rotate_in [1:0] $end
+$var wire 1 ' rst $end
+$var wire 4 . state_in [3:0] $end
+$var wire 4 / turn_in [3:0] $end
+$var wire 10 0 vcount_in [9:0] $end
+$var wire 12 1 shield_out [11:0] $end
+$var wire 12 2 frame_top_pixel [11:0] $end
+$var wire 1 3 frame_top_out $end
+$var wire 12 4 frame_right_pixel [11:0] $end
+$var wire 1 5 frame_right_out $end
+$var wire 12 6 frame_left_pixel [11:0] $end
+$var wire 1 7 frame_left_out $end
+$var wire 12 8 frame_bottom_pixel [11:0] $end
+$var wire 1 9 frame_bottom_out $end
+$var wire 24 : arrow_valid_out [23:0] $end
+$var reg 24 ; arrow_valid_in [23:0] $end
+$var reg 1 < busy_out_buffer $end
+$var reg 1 " finished_out $end
+$var reg 4 = old_state_in [3:0] $end
+$var reg 12 > pixel_out [11:0] $end
+$var reg 32 ? timing_count [31:0] $end
+$scope module arrow1 $end
+$var wire 1 $ clk $end
+$var wire 2 @ direction_in [1:0] $end
+$var wire 11 A hcount_in [10:0] $end
+$var wire 1 B inversed_in $end
+$var wire 3 C speed_in [2:0] $end
+$var wire 1 D valid_in $end
+$var wire 1 E valid_out $end
+$var wire 10 F vcount_in [9:0] $end
+$var wire 12 G pixel_out [11:0] $end
+$var reg 1 H old_valid_in $end
+$var reg 11 I x [10:0] $end
+$var reg 10 J y [9:0] $end
+$upscope $end
+$scope module arrow2 $end
+$var wire 1 $ clk $end
+$var wire 2 K direction_in [1:0] $end
+$var wire 11 L hcount_in [10:0] $end
+$var wire 1 M inversed_in $end
+$var wire 3 N speed_in [2:0] $end
+$var wire 1 O valid_in $end
+$var wire 1 P valid_out $end
+$var wire 10 Q vcount_in [9:0] $end
+$var wire 12 R pixel_out [11:0] $end
+$var reg 1 S old_valid_in $end
+$var reg 11 T x [10:0] $end
+$var reg 10 U y [9:0] $end
+$upscope $end
+$scope module arrow3 $end
+$var wire 1 $ clk $end
+$var wire 2 V direction_in [1:0] $end
+$var wire 11 W hcount_in [10:0] $end
+$var wire 1 X inversed_in $end
+$var wire 3 Y speed_in [2:0] $end
+$var wire 1 Z valid_in $end
+$var wire 1 [ valid_out $end
+$var wire 10 \ vcount_in [9:0] $end
+$var wire 12 ] pixel_out [11:0] $end
+$var reg 1 ^ old_valid_in $end
+$var reg 11 _ x [10:0] $end
+$var reg 10 ` y [9:0] $end
+$upscope $end
+$scope module frame_bottom $end
+$var wire 11 a hcount_in [10:0] $end
+$var wire 1 b is_fixed $end
+$var wire 10 c vcount_in [9:0] $end
+$var wire 11 d x_in [10:0] $end
+$var wire 10 e y_in [9:0] $end
+$var wire 12 f pixel_out [11:0] $end
+$var wire 1 9 in_sprite $end
+$var reg 1 9 in_sprite_buffer $end
+$upscope $end
+$scope module frame_left $end
+$var wire 11 g hcount_in [10:0] $end
+$var wire 1 h is_fixed $end
+$var wire 10 i vcount_in [9:0] $end
+$var wire 11 j x_in [10:0] $end
+$var wire 10 k y_in [9:0] $end
+$var wire 12 l pixel_out [11:0] $end
+$var wire 1 7 in_sprite $end
+$var reg 1 7 in_sprite_buffer $end
+$upscope $end
+$scope module frame_right $end
+$var wire 11 m hcount_in [10:0] $end
+$var wire 1 n is_fixed $end
+$var wire 10 o vcount_in [9:0] $end
+$var wire 11 p x_in [10:0] $end
+$var wire 10 q y_in [9:0] $end
+$var wire 12 r pixel_out [11:0] $end
+$var wire 1 5 in_sprite $end
+$var reg 1 5 in_sprite_buffer $end
+$upscope $end
+$scope module frame_top $end
+$var wire 11 s hcount_in [10:0] $end
+$var wire 1 t is_fixed $end
+$var wire 10 u vcount_in [9:0] $end
+$var wire 11 v x_in [10:0] $end
+$var wire 10 w y_in [9:0] $end
+$var wire 12 x pixel_out [11:0] $end
+$var wire 1 3 in_sprite $end
+$var reg 1 3 in_sprite_buffer $end
+$upscope $end
+$scope module player_shield $end
+$var wire 11 y hcount_in [10:0] $end
+$var wire 2 z rotate_in [1:0] $end
+$var wire 10 { vcount_in [9:0] $end
+$var wire 12 | pixel_out [11:0] $end
+$var wire 1 } in_sprite $end
+$var reg 10 ~ height [9:0] $end
+$var reg 11 !" width [10:0] $end
+$var reg 11 "" x [10:0] $end
+$var reg 10 #" y [9:0] $end
+$upscope $end
+$upscope $end
+$scope begin $ivl_for_loop0 $end
+$var integer 32 $" i [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b0 $"
+b101000000 #"
+b111000000 ""
+b10000000 !"
+b100 ~
+x}
+bx |
+bx {
+b0 z
+bx y
+bx x
+b0 w
+b0 v
+bx u
+1t
+bx s
+bx r
+b0 q
+b0 p
+bx o
+1n
+bx m
+bx l
+b0 k
+b0 j
+bx i
+1h
+bx g
+bx f
+b0 e
+b0 d
+bx c
+1b
+bx a
+bx `
+bx _
+x^
+bx00000000 ]
+bx \
+x[
+xZ
+b0 Y
+0X
+bx W
+b10 V
+bx U
+bx T
+xS
+bx00000000 R
+bx Q
+xP
+xO
+b0 N
+0M
+bx L
+b1 K
+bx J
+bx I
+xH
+bx00000000 G
+bx F
+xE
+xD
+b0 C
+0B
+bx A
+b0 @
+bx ?
+bx >
+bx =
+x<
+bx ;
+bzxxx :
+x9
+bx 8
+x7
+bx 6
+x5
+bx 4
+x3
+bx 2
+bx 1
+bx 0
+bx /
+bx .
+bx -
+bx ,
+b0 +
+bx *
+bx )
+bx (
+1'
+bx &
+bx %
+0$
+x#
+x"
+bx !
+$end
+#10000
+b1010 =
+b0 ?
+0"
+0#
+0<
+1$
+#20000
+b0 8
+b0 f
+b0 6
+b0 l
+b0 4
+b0 r
+b0 2
+b0 x
+09
+07
+05
+03
+b0 1
+b0 |
+0$
+b0 &
+b0 -
+b0 )
+b0 /
+b1000 (
+b1000 .
+b0 *
+b0 0
+b0 F
+b0 Q
+b0 \
+b0 c
+b0 i
+b0 o
+b0 u
+b0 {
+0}
+b0 %
+b0 ,
+b0 A
+b0 L
+b0 W
+b0 a
+b0 g
+b0 m
+b0 s
+b0 y
+0'
+#30000
+1D
+0O
+0Z
+b1000 =
+b1 ?
+b1 ;
+1#
+1<
+1$
+#40000
+0$
+b1 $"
+#50000
+1H
+0S
+0^
+b10 ?
+1$
+#60000
+0$
+b10 $"
+#70000
+b11 ?
+1$
+#80000
+0$
+b11 $"
+#90000
+b100 ?
+1$
+#100000
+0$
+b100 $"
+#110000
+b101 ?
+1$
+#120000
+0$
+b101 $"
+#130000
+b110 ?
+1$
+#140000
+0$
+b110 $"
+#150000
+b111 ?
+1$
+#160000
+0$
+b111 $"
+#170000
+b1000 ?
+1$
+#180000
+0$
+b1000 $"
+#190000
+b1001 ?
+1$
+#200000
+0$
+b1001 $"
+#210000
+b1010 ?
+1$
+#220000
+0$
+b1010 $"
+#230000
+b1011 ?
+1$
+#240000
+0$
+b1011 $"
+#250000
+b1100 ?
+1$
+#260000
+0$
+b1100 $"
+#270000
+b1101 ?
+1$
+#280000
+0$
+b1101 $"
+#290000
+b1110 ?
+1$
+#300000
+0$
+b1110 $"
+#310000
+b1111 ?
+1$
+#320000
+0$
+b1111 $"
+#330000
+b10000 ?
+1$
+#340000
+0$
+b10000 $"
+#350000
+b10001 ?
+1$
+#360000
+0$
+b10001 $"
+#370000
+b10010 ?
+1$
+#380000
+0$
+b10010 $"
+#390000
+b10011 ?
+1$
+#400000
+0$
+b10011 $"
+#410000
+b10100 ?
+1$
+#420000
+0$
+b10100 $"
+#430000
+b10101 ?
+1$
+#440000
+0$
+b10101 $"
+#450000
+b10110 ?
+1$
+#460000
+0$
+b10110 $"
+#470000
+b10111 ?
+1$
+#480000
+0$
+b10111 $"
+#490000
+b11000 ?
+1$
+#500000
+0$
+b11000 $"
+#510000
+b11001 ?
+1$
+#520000
+0$
+b11001 $"
+#530000
+b11010 ?
+1$
+#540000
+0$
+b11010 $"
+#550000
+b11011 ?
+1$
+#560000
+0$
+b11011 $"
+#570000
+b11100 ?
+1$
+#580000
+0$
+b11100 $"
+#590000
+b11101 ?
+1$
+#600000
+0$
+b11101 $"
+#610000
+b11110 ?
+1$
+#620000
+0$
+b11110 $"
+#630000
+b11111 ?
+1$
+#640000
+0$
+#650000
+b100000 ?
+1$
+#660000
+0$
+#670000
+b100001 ?
+1$
+#680000
+0$
+#690000
+b100010 ?
+1$
+#700000
+0$
+#710000
+b100011 ?
+1$
+#720000
+0$

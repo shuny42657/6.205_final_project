@@ -25,9 +25,9 @@ logic[9:0] speeds[71:0];
 logic[9:0] directions[47:0];
 logic[9:0] inverseds[23:0];
 //patterns
-pattern #(72'h249_249_249_249_249_249,72'h249_249_249_249_249_249,48'h0,24'h0,0) pattern1(.turn_in(turn_in),.valid_out(1),.timing(timings[0]),.speed(speeds[0]),.direction(directions[0]),.inversed(inverseds[0]));
+//pattern #(72'h249_249_249_249_249_249,72'h249_249_249_249_249_249,48'h0,24'h0,0) pattern1(.turn_in(turn_in),.valid_out(1),.timing(timings[0]),.speed(speeds[0]),.direction(directions[0]),.inversed(inverseds[0]));
 
-
+assign timings[0] = 72'h249_249_249_249_249_249;
 //logic[23:0] arrow_on;
 //24 arrows
 logic[23:0] arrow_valid_in;
@@ -63,8 +63,10 @@ end
 
 
 logic[31:0] timing_count;
-logic[6:0] arrow_count;
+logic[6:0] arrow_count_first;
+logic[6:0] arrow_count_last;
 logic[3:0] old_state_in; //detecting rising edge at the beginning of each phase
+assign arrow_count_first = 0;
 always_ff @(posedge clk)begin
 	if(rst)begin
 		busy_out_buffer <= 0;
@@ -76,20 +78,16 @@ always_ff @(posedge clk)begin
 		if(state_in == 4'b1000 && old_state_in != state_in)begin
 			busy_out_buffer <= 1;
 			timing_count <= 0;
-			arrow_count <= 0;
+			//arrow_count_first <= 0;
 			arrow_valid_in <= 24'h000001;
 		end
 
-		//if(busy_out_buffer)begin
-		//if(hcount_in == 0 && vcount_in == 0)begin
+			timing_count <= timing_count + 1;
+                	if(timing_count == /*timings[0][arrow_count+:3]*/5*65000000/*timings[0][arrow_count_first+:3]*/)begin
+                        	arrow_valid_in <= {arrow_valid_in[22:0],1'b1};
+                       		timing_count <= 0;
+                	end
 
-		timing_count <= timing_count + 1;
-                if(timing_count == /*timings[0][arrow_count+:3]*/650000000)begin
-                        //arrow_valid_in <= 24'h000003;
-			arrow_valid_in <= {arrow_valid_in[22:0],1'b1};
-                        timing_count <= 0;
-			arrow_count <= arrow_count + 3;
-                end
 		//end
 
 		//end

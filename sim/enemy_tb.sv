@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns / 1ps
 
-module enemy;
+module enemy_tb;
 
 logic clk;
 logic rst;
@@ -31,6 +31,27 @@ enemy uut(
 always begin
 	#10;
        	clk = !clk;
+end
+
+initial begin
+	$display("Starting Sim");
+	$dumpfile("enemy.vcd");
+	$dumpvars(0,enemy_tb);
+	rst = 1;
+	clk = 0;
+	#20;
+	rst = 0;
+	for(int i = 0;i<30;i++)begin
+		hcount_in = 0;
+		vcount_in = 0;
+		state_in = 4'b1000;
+		turn_in = 0;
+		rotate_in = 2'b0;
+		#20;
+	end
+	#100;
+	$display("Finishing Sim");
+	$finish;
 end
 
 
