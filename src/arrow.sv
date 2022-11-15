@@ -3,6 +3,7 @@
 
 module arrow #(parameter WIDTH = 8,HEIGHT = 32)(
 	input wire clk,
+	input wire rst,
 	input wire[10:0] hcount_in,
 	input wire[9:0] vcount_in,
 	input wire valid_in,
@@ -17,51 +18,62 @@ module arrow #(parameter WIDTH = 8,HEIGHT = 32)(
 logic[10:0] x;
 logic[9:0] y;
 logic old_valid_in;
-
+logic valid_out_buffer;
 always_ff @(posedge clk)begin
-	if(~old_valid_in && valid_in)begin
-		case(direction_in)
-			2'b00:begin
-				x <= 512;
-				y <= 0;
-			end
-			2'b01:begin
-				x <= 512;
-				y <= 720;
-			end
-			2'b10:begin
-				x <= 0;
-				y <= 384;
-			end
-			2'b11:begin
-				x <= 512;
-				y <= 0;
-			end
-		endcase
-	end else if(old_valid_in && valid_in)begin
-		if(hcount_in == 0 && vcount_in == 0)begin
-			case(direction_in)
+	/*if(rst)begin
+		pixel_out <= 0;
+		valid_out <= 0;
+	end
+	else begin*/
+		if(~old_valid_in && valid_in)begin
+                	case(direction_in)
                         	2'b00:begin
-                                	y <= y + 4;
+                                	x <= 512;
+                                	y <= 0;
                         	end
                         	2'b01:begin
-                                	y <= y - 4;
+                                	x <= 512;
+                                	y <= 720;
                         	end
                         	2'b10:begin
-                                	x <= x + 4;
+                                	x <= 0;
+                                	y <= 384;
                         	end
                         	2'b11:begin
-                                	y <= y + 4;
+                                	x <= 512;
+                                	y <= 0;
                         	end
-			endcase
-
-
+                	endcase
+        	end else if(old_valid_in && valid_in)begin
+                	if(hcount_in == 0 && vcount_in == 0)begin
+                        	case(direction_in)
+                                	2'b00:begin
+                                        	y <= y + 4;
+                               	 	end
+                                	2'b01:begin
+                                        	y <= y - 4;
+                                	end
+                                	2'b10:begin
+                                        	x <= x + 4;
+                                	end
+                                	2'b11:begin
+                                        	y <= y + 4;
+                                	end
+                        	endcase
+                	end
 		end
-
-	end
+	//end
+	//valid_out = valid_in ? /*(hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT)*//*1 : 0;
+	//valid_out = (hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT);
+	//pixel_out = valid_out ? 12'hF00 : 0;
 	old_valid_in <= valid_in;
 end
-assign valid_out = (hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT);
+assign valid_out = valid_in ? ((hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT)) : 0;
+/*always_comb begin
+	valid_out_buffer = (hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT);
+end*/
+//assign valid_out = (hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT);
+//assign valid_out = valid_out_buffer;
 assign pixel_out = valid_out ? 12'hF00 : 0;
 endmodule
 `default_nettype wire

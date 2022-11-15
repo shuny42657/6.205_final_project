@@ -41,9 +41,9 @@ initial begin
 	clk = 0;
 	#20;
 	rst = 0;
-	for(int i = 0;i<30;i++)begin
-		hcount_in = 0;
-		vcount_in = 0;
+	for(int i = 0;i<100;i++)begin
+		hcount_in = 513;
+		vcount_in = 256;
 		state_in = 4'b1000;
 		turn_in = 0;
 		rotate_in = 2'b0;
