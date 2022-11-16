@@ -52,6 +52,10 @@ block_sprite #(8,160,432,304,12'hFFF) frame_left(.is_fixed(1),.x_in(0),.hcount_i
 block_sprite #(8,160,584,304,12'hFFF) frame_right(.is_fixed(1),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.in_sprite(frame_right_out),.pixel_out(frame_right_pixel));
 block_sprite #(160,8,432,456,12'hFFF) frame_bottom(.is_fixed(1),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.in_sprite(frame_bottom_out),.pixel_out(frame_bottom_pixel));
 
+logic[11:0] green_heart_pixel_out;
+logic green_heart_valid_out;
+//image_sprite #(256,256) green_heart(.pixel_clk_in(clk),.rst_in(rst),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.pixel_out(green_heart_pixel_out),.in_sprite(green_heart_valid_out));
+
 always_comb begin
 	if(busy_out_buffer)begin
 		/*if(frame_top_out)
@@ -62,7 +66,7 @@ always_comb begin
                 	pixel_out = frame_right_pixel;
         	if(frame_left_out)
                 	pixel_out = frame_left_pixel;*/
-		pixel_out = frame_bottom_pixel + frame_top_pixel + frame_left_pixel + frame_right_pixel + arrow_out_1 + arrow_out_2 + arrow_out_3 + shield_out;
+		pixel_out = frame_bottom_pixel + frame_top_pixel + frame_left_pixel + frame_right_pixel + arrow_out_1 + arrow_out_2 + arrow_out_3 + shield_out + green_heart_pixel_out;
 		//pixel_out = 1;
 	end 
 	else begin
@@ -115,6 +119,9 @@ always_ff @(posedge clk)begin
 		end
 	        old_state_in <= state_in;
 		old_arrow_valid_out <= arrow_valid_out;
+		if(finished_out == 1)begin
+			finished_out <= 0;
+		end
 	end
 	//output the pixel value from 24 arrows, heart, etc. 
 	//alpha blending
