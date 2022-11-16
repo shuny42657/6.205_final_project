@@ -15,10 +15,12 @@ module arrow #(parameter WIDTH = 8,HEIGHT = 32)(
 	output logic valid_out
 );
 
+
 logic[10:0] x;
 logic[9:0] y;
 logic old_valid_in;
 logic valid_out_buffer;
+logic is_hit;
 always_ff @(posedge clk)begin
 	/*if(rst)begin
 		pixel_out <= 0;
@@ -40,24 +42,37 @@ always_ff @(posedge clk)begin
                                 	y <= 384;
                         	end
                         	2'b11:begin
-                                	x <= 512;
-                                	y <= 0;
+                                	x <= 1024;
+                                	y <= 384;
                         	end
                 	endcase
+			is_hit <= 0;
         	end else if(old_valid_in && valid_in)begin
                 	if(hcount_in == 0 && vcount_in == 0)begin
                         	case(direction_in)
                                 	2'b00:begin
                                         	y <= y + 4;
+						if(y >= 384)begin
+							is_hit <= 1;
+						end
                                	 	end
                                 	2'b01:begin
                                         	y <= y - 4;
+						if(y <= 384)begin
+							is_hit <= 1;
+						end
                                 	end
                                 	2'b10:begin
                                         	x <= x + 4;
+						if(x >= 512)begin
+							is_hit <= 1;
+						end
                                 	end
                                 	2'b11:begin
-                                        	y <= y + 4;
+                                        	x <= x - 4;
+						if(x <= 512)begin
+							is_hit <= 1;
+						end
                                 	end
                         	endcase
                 	end
@@ -68,7 +83,7 @@ always_ff @(posedge clk)begin
 	//pixel_out = valid_out ? 12'hF00 : 0;
 	old_valid_in <= valid_in;
 end
-assign valid_out = valid_in ? ((hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT)) : 0;
+assign valid_out = (valid_in && ~is_hit) ? ((hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT)) : 0;
 /*always_comb begin
 	valid_out_buffer = (hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT);
 end*/

@@ -42,5 +42,16 @@ always_comb begin
 	endcase
 end
 
+always_ff @(posedge clk)begin
+	if(rst)begin
+	end
+	else begin
+		if(enemy_finish_out)begin
+			//shift to next state
+			//state_out <= 4'b0001;
+		end
+	end
+end
+
 endmodule
 `default_nettype wire

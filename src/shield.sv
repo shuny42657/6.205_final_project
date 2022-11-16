@@ -18,7 +18,7 @@ always_comb begin
 			width = 128;
 			height = 4;
 		end
-		2'b01:begin
+		2'b11:begin
 			x = 448;
 			y = 320;
 			width = 4;
@@ -30,7 +30,7 @@ always_comb begin
 			width = 4;
 			height = 128;
 		end
-		2'b11:begin
+		2'b01:begin
 			x = 448;
 			y = 440;
 			width = 128;
@@ -39,7 +39,7 @@ always_comb begin
 	endcase
 end
 logic in_sprite;
-assign in_sprite = (hcount_in >= 448) /*&& (hcount_in <= 566)  && ((vcount_in >= 320) && (vcount_in <= 328)))*/;
+assign in_sprite = (hcount_in >= x) && (hcount_in <= x+width)  && ((vcount_in >= y) && (vcount_in <= y+height));
 assign pixel_out = in_sprite ? 12'hFFF : 0;
 endmodule
 `default_nettype wire

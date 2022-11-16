@@ -21,11 +21,11 @@ logic[1:0] rotate_out;
 always_comb begin
 	if(btnu)
 		rotate_out = 2'b00;
-	else if(btnd)
+	if(btnd)
 		rotate_out = 2'b01;
-	else if(btnr)
+	if(btnr)
 		rotate_out = 2'b10;
-	else if(btnl)
+	if(btnl)
 		rotate_out = 2'b11;
 end
 		

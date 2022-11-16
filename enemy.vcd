@@ -1,5 +1,5 @@
 $date
-	Tue Nov 15 13:46:50 2022
+	Tue Nov 15 19:57:46 2022
 $end
 $version
 	Icarus Verilog
@@ -28,215 +28,236 @@ $var wire 4 - state_in [3:0] $end
 $var wire 4 . turn_in [3:0] $end
 $var wire 10 / vcount_in [9:0] $end
 $var wire 12 0 shield_out [11:0] $end
-$var wire 12 1 frame_top_pixel [11:0] $end
-$var wire 1 2 frame_top_out $end
-$var wire 12 3 frame_right_pixel [11:0] $end
-$var wire 1 4 frame_right_out $end
-$var wire 12 5 frame_left_pixel [11:0] $end
-$var wire 1 6 frame_left_out $end
-$var wire 12 7 frame_bottom_pixel [11:0] $end
-$var wire 1 8 frame_bottom_out $end
-$var wire 1 9 arrow_valid_3 $end
-$var wire 1 : arrow_valid_2 $end
-$var wire 1 ; arrow_valid_1 $end
-$var wire 12 < arrow_out_3 [11:0] $end
-$var wire 12 = arrow_out_2 [11:0] $end
-$var wire 12 > arrow_out_1 [11:0] $end
-$var reg 7 ? arrow_count_first [6:0] $end
-$var reg 24 @ arrow_valid_in [23:0] $end
-$var reg 1 A busy_out_buffer $end
+$var wire 1 1 pattern_valid_1 $end
+$var wire 12 2 frame_top_pixel [11:0] $end
+$var wire 1 3 frame_top_out $end
+$var wire 12 4 frame_right_pixel [11:0] $end
+$var wire 1 5 frame_right_out $end
+$var wire 12 6 frame_left_pixel [11:0] $end
+$var wire 1 7 frame_left_out $end
+$var wire 12 8 frame_bottom_pixel [11:0] $end
+$var wire 1 9 frame_bottom_out $end
+$var wire 1 : arrow_valid_3 $end
+$var wire 1 ; arrow_valid_2 $end
+$var wire 1 < arrow_valid_1 $end
+$var wire 12 = arrow_out_3 [11:0] $end
+$var wire 12 > arrow_out_2 [11:0] $end
+$var wire 12 ? arrow_out_1 [11:0] $end
+$var reg 7 @ arrow_count_first [6:0] $end
+$var reg 24 A arrow_valid_in [23:0] $end
+$var reg 1 B busy_out_buffer $end
 $var reg 1 " finished_out $end
-$var reg 4 B old_state_in [3:0] $end
-$var reg 12 C pixel_out [11:0] $end
-$var reg 32 D timing_count [31:0] $end
+$var reg 4 C old_state_in [3:0] $end
+$var reg 12 D pixel_out [11:0] $end
+$var reg 32 E timing_count [31:0] $end
 $scope module arrow1 $end
 $var wire 1 $ clk $end
-$var wire 2 E direction_in [1:0] $end
-$var wire 11 F hcount_in [10:0] $end
-$var wire 1 G inversed_in $end
+$var wire 2 F direction_in [1:0] $end
+$var wire 11 G hcount_in [10:0] $end
+$var wire 1 H inversed_in $end
 $var wire 1 ' rst $end
-$var wire 3 H speed_in [2:0] $end
-$var wire 1 I valid_in $end
-$var wire 10 J vcount_in [9:0] $end
-$var wire 1 ; valid_out $end
-$var wire 12 K pixel_out [11:0] $end
-$var reg 1 L old_valid_in $end
-$var reg 11 M x [10:0] $end
-$var reg 10 N y [9:0] $end
+$var wire 3 I speed_in [2:0] $end
+$var wire 1 J valid_in $end
+$var wire 10 K vcount_in [9:0] $end
+$var wire 1 < valid_out $end
+$var wire 12 L pixel_out [11:0] $end
+$var reg 1 M is_hit $end
+$var reg 1 N old_valid_in $end
+$var reg 11 O x [10:0] $end
+$var reg 10 P y [9:0] $end
 $upscope $end
 $scope module arrow2 $end
 $var wire 1 $ clk $end
-$var wire 2 O direction_in [1:0] $end
-$var wire 11 P hcount_in [10:0] $end
-$var wire 1 Q inversed_in $end
+$var wire 2 Q direction_in [1:0] $end
+$var wire 11 R hcount_in [10:0] $end
+$var wire 1 S inversed_in $end
 $var wire 1 ' rst $end
-$var wire 3 R speed_in [2:0] $end
-$var wire 1 S valid_in $end
-$var wire 10 T vcount_in [9:0] $end
-$var wire 1 : valid_out $end
-$var wire 12 U pixel_out [11:0] $end
-$var reg 1 V old_valid_in $end
-$var reg 11 W x [10:0] $end
-$var reg 10 X y [9:0] $end
+$var wire 3 T speed_in [2:0] $end
+$var wire 1 U valid_in $end
+$var wire 10 V vcount_in [9:0] $end
+$var wire 1 ; valid_out $end
+$var wire 12 W pixel_out [11:0] $end
+$var reg 1 X is_hit $end
+$var reg 1 Y old_valid_in $end
+$var reg 11 Z x [10:0] $end
+$var reg 10 [ y [9:0] $end
 $upscope $end
 $scope module arrow3 $end
 $var wire 1 $ clk $end
-$var wire 2 Y direction_in [1:0] $end
-$var wire 11 Z hcount_in [10:0] $end
-$var wire 1 [ inversed_in $end
+$var wire 2 \ direction_in [1:0] $end
+$var wire 11 ] hcount_in [10:0] $end
+$var wire 1 ^ inversed_in $end
 $var wire 1 ' rst $end
-$var wire 3 \ speed_in [2:0] $end
-$var wire 1 ] valid_in $end
-$var wire 10 ^ vcount_in [9:0] $end
-$var wire 1 9 valid_out $end
-$var wire 12 _ pixel_out [11:0] $end
-$var reg 1 ` old_valid_in $end
-$var reg 11 a x [10:0] $end
-$var reg 10 b y [9:0] $end
+$var wire 3 _ speed_in [2:0] $end
+$var wire 1 ` valid_in $end
+$var wire 10 a vcount_in [9:0] $end
+$var wire 1 : valid_out $end
+$var wire 12 b pixel_out [11:0] $end
+$var reg 1 c is_hit $end
+$var reg 1 d old_valid_in $end
+$var reg 11 e x [10:0] $end
+$var reg 10 f y [9:0] $end
 $upscope $end
 $scope module frame_bottom $end
-$var wire 11 c hcount_in [10:0] $end
-$var wire 1 d is_fixed $end
-$var wire 10 e vcount_in [9:0] $end
-$var wire 11 f x_in [10:0] $end
-$var wire 10 g y_in [9:0] $end
-$var wire 12 h pixel_out [11:0] $end
-$var wire 1 8 in_sprite $end
-$var reg 1 8 in_sprite_buffer $end
+$var wire 11 g hcount_in [10:0] $end
+$var wire 1 h is_fixed $end
+$var wire 10 i vcount_in [9:0] $end
+$var wire 11 j x_in [10:0] $end
+$var wire 10 k y_in [9:0] $end
+$var wire 12 l pixel_out [11:0] $end
+$var wire 1 9 in_sprite $end
+$var reg 1 9 in_sprite_buffer $end
 $upscope $end
 $scope module frame_left $end
-$var wire 11 i hcount_in [10:0] $end
-$var wire 1 j is_fixed $end
-$var wire 10 k vcount_in [9:0] $end
-$var wire 11 l x_in [10:0] $end
-$var wire 10 m y_in [9:0] $end
-$var wire 12 n pixel_out [11:0] $end
-$var wire 1 6 in_sprite $end
-$var reg 1 6 in_sprite_buffer $end
+$var wire 11 m hcount_in [10:0] $end
+$var wire 1 n is_fixed $end
+$var wire 10 o vcount_in [9:0] $end
+$var wire 11 p x_in [10:0] $end
+$var wire 10 q y_in [9:0] $end
+$var wire 12 r pixel_out [11:0] $end
+$var wire 1 7 in_sprite $end
+$var reg 1 7 in_sprite_buffer $end
 $upscope $end
 $scope module frame_right $end
-$var wire 11 o hcount_in [10:0] $end
-$var wire 1 p is_fixed $end
-$var wire 10 q vcount_in [9:0] $end
-$var wire 11 r x_in [10:0] $end
-$var wire 10 s y_in [9:0] $end
-$var wire 12 t pixel_out [11:0] $end
-$var wire 1 4 in_sprite $end
-$var reg 1 4 in_sprite_buffer $end
+$var wire 11 s hcount_in [10:0] $end
+$var wire 1 t is_fixed $end
+$var wire 10 u vcount_in [9:0] $end
+$var wire 11 v x_in [10:0] $end
+$var wire 10 w y_in [9:0] $end
+$var wire 12 x pixel_out [11:0] $end
+$var wire 1 5 in_sprite $end
+$var reg 1 5 in_sprite_buffer $end
 $upscope $end
 $scope module frame_top $end
-$var wire 11 u hcount_in [10:0] $end
-$var wire 1 v is_fixed $end
-$var wire 10 w vcount_in [9:0] $end
-$var wire 11 x x_in [10:0] $end
-$var wire 10 y y_in [9:0] $end
-$var wire 12 z pixel_out [11:0] $end
-$var wire 1 2 in_sprite $end
-$var reg 1 2 in_sprite_buffer $end
+$var wire 11 y hcount_in [10:0] $end
+$var wire 1 z is_fixed $end
+$var wire 10 { vcount_in [9:0] $end
+$var wire 11 | x_in [10:0] $end
+$var wire 10 } y_in [9:0] $end
+$var wire 12 ~ pixel_out [11:0] $end
+$var wire 1 3 in_sprite $end
+$var reg 1 3 in_sprite_buffer $end
+$upscope $end
+$scope module pattern1 $end
+$var wire 4 !" turn_in [3:0] $end
+$var reg 48 "" direction [47:0] $end
+$var reg 24 #" inversed [23:0] $end
+$var reg 72 $" speed [71:0] $end
+$var reg 72 %" timing [71:0] $end
+$var reg 1 1 valid_out $end
 $upscope $end
 $scope module player_shield $end
-$var wire 11 { hcount_in [10:0] $end
-$var wire 2 | rotate_in [1:0] $end
-$var wire 10 } vcount_in [9:0] $end
-$var wire 12 ~ pixel_out [11:0] $end
-$var wire 1 !" in_sprite $end
-$var reg 10 "" height [9:0] $end
-$var reg 11 #" width [10:0] $end
-$var reg 11 $" x [10:0] $end
-$var reg 10 %" y [9:0] $end
+$var wire 11 &" hcount_in [10:0] $end
+$var wire 1 '" in_sprite $end
+$var wire 2 (" rotate_in [1:0] $end
+$var wire 10 )" vcount_in [9:0] $end
+$var wire 12 *" pixel_out [11:0] $end
+$var reg 10 +" height [9:0] $end
+$var reg 11 ," width [10:0] $end
+$var reg 11 -" x [10:0] $end
+$var reg 10 ." y [9:0] $end
 $upscope $end
 $upscope $end
 $scope begin $ivl_for_loop0 $end
-$var integer 32 &" i [31:0] $end
+$var integer 32 /" i [31:0] $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
-b0 &"
-b101000000 %"
-b111000000 $"
-b10000000 #"
-b100 ""
-x!"
+b0 /"
+b101000000 ."
+b111000000 -"
+b10000000 ,"
+b100 +"
+bx *"
+bx )"
+b0 ("
+x'"
+bx &"
+bx %"
+bx $"
+bx #"
+bx ""
+bx !"
 bx ~
-bx }
+b0 }
 b0 |
 bx {
-bx z
-b0 y
-b0 x
-bx w
-1v
+1z
+bx y
+bx x
+b0 w
+b0 v
 bx u
-bx t
-b0 s
-b0 r
-bx q
-1p
+1t
+bx s
+bx r
+b0 q
+b0 p
 bx o
-bx n
-b0 m
-b0 l
-bx k
-1j
+1n
+bx m
+bx l
+b0 k
+b0 j
 bx i
-bx h
-b0 g
-b0 f
+1h
+bx g
+bx f
 bx e
-1d
-bx c
-bx b
+xd
+xc
+bx00000000 b
 bx a
 x`
-bx00000000 _
-bx ^
-x]
-b0 \
-0[
+b0 _
+0^
+bx ]
+b10 \
+bx [
 bx Z
-b10 Y
-bx X
-bx W
-xV
-bx00000000 U
-bx T
-xS
-b0 R
-0Q
+xY
+xX
+bx00000000 W
+bx V
+xU
+b0 T
+0S
+bx R
+b1 Q
 bx P
-b1 O
-bx N
-bx M
-xL
-bx00000000 K
-bx J
-xI
-b0 H
-0G
-bx F
-b0 E
+bx O
+xN
+xM
+bx00000000 L
+bx K
+xJ
+b0 I
+0H
+bx G
+b0 F
+bx E
 bx D
 bx C
-bx B
-xA
+xB
+bx A
 bx @
-bx ?
+bx00000000 ?
 bx00000000 >
 bx00000000 =
-bx00000000 <
+x<
 x;
 x:
 x9
-x8
-bx 7
-x6
-bx 5
-x4
-bx 3
-x2
-bx 1
+bx 8
+x7
+bx 6
+x5
+bx 4
+x3
+bx 2
+01
 bx 0
 bx /
 bx .
@@ -255,717 +276,705 @@ x"
 bx !
 $end
 #10000
-b0 ?
-b1010 B
-b0 D
+b0 @
+b1010 C
+b0 E
 0"
 0#
-0A
+0B
 1$
 #20000
-b0 7
-b0 h
-b0 5
-b0 n
-b0 3
-b0 t
-b0 1
-b0 z
-08
-06
-04
-02
-b111111111111 0
-b111111111111 ~
+b0 0
+b0 *"
+b0 8
+b0 l
+b0 6
+b0 r
+b0 4
+b0 x
+b0 2
+b0 ~
+0'"
+b0 #"
+b0 ""
+b1001001001001001001001001001001001001001001001001001001001001001001001 $"
+b1001001001001001001001001001001001001001001001001001001001001001001001 %"
+11
+09
+07
+05
+03
 0$
 b0 &
 b0 ,
 b0 )
 b0 .
+b0 !"
 b1000 (
 b1000 -
 b100000000 *
 b100000000 /
-b100000000 J
-b100000000 T
-b100000000 ^
-b100000000 e
-b100000000 k
-b100000000 q
-b100000000 w
-b100000000 }
-1!"
+b100000000 K
+b100000000 V
+b100000000 a
+b100000000 i
+b100000000 o
+b100000000 u
+b100000000 {
+b100000000 )"
 b1000000001 %
 b1000000001 +
-b1000000001 F
-b1000000001 P
-b1000000001 Z
-b1000000001 c
-b1000000001 i
-b1000000001 o
-b1000000001 u
-b1000000001 {
+b1000000001 G
+b1000000001 R
+b1000000001 ]
+b1000000001 g
+b1000000001 m
+b1000000001 s
+b1000000001 y
+b1000000001 &"
 0'
 #30000
-0I
-0S
-0]
-b1000 B
-b0 @
+b0 !
+b0 D
+b0 ?
+b0 L
+b0 >
+b0 W
+b0 =
+b0 b
+0<
+0;
+0:
+0J
+0U
+0`
+b1000 C
+b0 A
 1#
-1A
+1B
 1$
 #40000
 0$
-b1 &"
+b1 /"
 #50000
-0L
-0V
-0`
-b1 D
+0N
+0Y
+0d
+b1 E
 1$
 #60000
 0$
-b10 &"
+b10 /"
 #70000
-b10 D
+b10 E
 1$
 #80000
 0$
-b11 &"
+b11 /"
 #90000
-b11 D
+b11 E
 1$
 #100000
 0$
-b100 &"
+b100 /"
 #110000
-b100 D
+b100 E
 1$
 #120000
 0$
-b101 &"
+b101 /"
 #130000
-b101 D
+b101 E
 1$
 #140000
 0$
-b110 &"
+b110 /"
 #150000
-b110 D
+b110 E
 1$
 #160000
 0$
-b111 &"
+b111 /"
 #170000
-b111 D
+b111 E
 1$
 #180000
 0$
-b1000 &"
+b1000 /"
 #190000
-b1000 D
+b1000 E
 1$
 #200000
 0$
-b1001 &"
+b1001 /"
 #210000
-b1001 D
+b1001 E
 1$
 #220000
 0$
-b1010 &"
+b1010 /"
 #230000
-b1010 D
+b1010 E
 1$
 #240000
 0$
-b1011 &"
+b1011 /"
 #250000
-b1011 D
+b1011 E
 1$
 #260000
 0$
-b1100 &"
+b1100 /"
 #270000
-b1100 D
+b1100 E
 1$
 #280000
 0$
-b1101 &"
+b1101 /"
 #290000
-b1101 D
+b1101 E
 1$
 #300000
 0$
-b1110 &"
+b1110 /"
 #310000
-b1110 D
+b1110 E
 1$
 #320000
 0$
-b1111 &"
+b1111 /"
 #330000
-b1111 D
+b1111 E
 1$
 #340000
 0$
-b10000 &"
+b10000 /"
 #350000
-b10000 D
+b10000 E
 1$
 #360000
 0$
-b10001 &"
+b10001 /"
 #370000
-b10001 D
+b10001 E
 1$
 #380000
 0$
-b10010 &"
+b10010 /"
 #390000
-b10010 D
+b10010 E
 1$
 #400000
 0$
-b10011 &"
+b10011 /"
 #410000
-b10011 D
+b10011 E
 1$
 #420000
 0$
-b10100 &"
+b10100 /"
 #430000
-b10100 D
+b10100 E
 1$
 #440000
 0$
-b10101 &"
+b10101 /"
 #450000
-b10101 D
+b10101 E
 1$
 #460000
 0$
-b10110 &"
+b10110 /"
 #470000
-b10110 D
+b10110 E
 1$
 #480000
 0$
-b10111 &"
+b10111 /"
 #490000
-b10111 D
+b10111 E
 1$
 #500000
 0$
-b11000 &"
+b11000 /"
 #510000
-b11000 D
+b11000 E
 1$
 #520000
 0$
-b11001 &"
+b11001 /"
 #530000
-b11001 D
+b11001 E
 1$
 #540000
 0$
-b11010 &"
+b11010 /"
 #550000
-b11010 D
+b11010 E
 1$
 #560000
 0$
-b11011 &"
+b11011 /"
 #570000
-b11011 D
+b11011 E
 1$
 #580000
 0$
-b11100 &"
+b11100 /"
 #590000
-b11100 D
+b11100 E
 1$
 #600000
 0$
-b11101 &"
+b11101 /"
 #610000
-b11101 D
+b11101 E
 1$
 #620000
 0$
-b11110 &"
+b11110 /"
 #630000
-b11110 D
+b11110 E
 1$
 #640000
 0$
-b11111 &"
+b11111 /"
 #650000
-1I
-b11 ?
-b1 @
-b0 D
+b11111 E
 1$
 #660000
 0$
-b100000 &"
+b100000 /"
 #670000
-b111100000000 >
-b111100000000 K
-b1 D
-1L
-b0 N
-1;
-b1000000000 M
+b100000 E
 1$
 #680000
 0$
-b100001 &"
+b100001 /"
 #690000
-b10 D
+b100001 E
 1$
 #700000
 0$
-b100010 &"
+b100010 /"
 #710000
-b11 D
+b100010 E
 1$
 #720000
 0$
-b100011 &"
+b100011 /"
 #730000
-b100 D
+b100011 E
 1$
 #740000
 0$
-b100100 &"
+b100100 /"
 #750000
-b101 D
+b100100 E
 1$
 #760000
 0$
-b100101 &"
+b100101 /"
 #770000
-b110 D
+b100101 E
 1$
 #780000
 0$
-b100110 &"
+b100110 /"
 #790000
-b111 D
+b100110 E
 1$
 #800000
 0$
-b100111 &"
+b100111 /"
 #810000
-b1000 D
+b100111 E
 1$
 #820000
 0$
-b101000 &"
+b101000 /"
 #830000
-b1001 D
+b101000 E
 1$
 #840000
 0$
-b101001 &"
+b101001 /"
 #850000
-b1010 D
+b101001 E
 1$
 #860000
 0$
-b101010 &"
+b101010 /"
 #870000
-b1011 D
+b101010 E
 1$
 #880000
 0$
-b101011 &"
+b101011 /"
 #890000
-b1100 D
+b101011 E
 1$
 #900000
 0$
-b101100 &"
+b101100 /"
 #910000
-b1101 D
+b101100 E
 1$
 #920000
 0$
-b101101 &"
+b101101 /"
 #930000
-b1110 D
+b101101 E
 1$
 #940000
 0$
-b101110 &"
+b101110 /"
 #950000
-b1111 D
+b101110 E
 1$
 #960000
 0$
-b101111 &"
+b101111 /"
 #970000
-b10000 D
+b101111 E
 1$
 #980000
 0$
-b110000 &"
+b110000 /"
 #990000
-b10001 D
+b110000 E
 1$
 #1000000
 0$
-b110001 &"
+b110001 /"
 #1010000
-b10010 D
+b110001 E
 1$
 #1020000
 0$
-b110010 &"
+b110010 /"
 #1030000
-b10011 D
+b110010 E
 1$
 #1040000
 0$
-b110011 &"
+b110011 /"
 #1050000
-b10100 D
+b110011 E
 1$
 #1060000
 0$
-b110100 &"
+b110100 /"
 #1070000
-b10101 D
+b110100 E
 1$
 #1080000
 0$
-b110101 &"
+b110101 /"
 #1090000
-b10110 D
+b110101 E
 1$
 #1100000
 0$
-b110110 &"
+b110110 /"
 #1110000
-b10111 D
+b110110 E
 1$
 #1120000
 0$
-b110111 &"
+b110111 /"
 #1130000
-b11000 D
+b110111 E
 1$
 #1140000
 0$
-b111000 &"
+b111000 /"
 #1150000
-b11001 D
+b111000 E
 1$
 #1160000
 0$
-b111001 &"
+b111001 /"
 #1170000
-b11010 D
+b111001 E
 1$
 #1180000
 0$
-b111010 &"
+b111010 /"
 #1190000
-b11011 D
+b111010 E
 1$
 #1200000
 0$
-b111011 &"
+b111011 /"
 #1210000
-b11100 D
+b111011 E
 1$
 #1220000
 0$
-b111100 &"
+b111100 /"
 #1230000
-b11101 D
+b111100 E
 1$
 #1240000
 0$
-b111101 &"
+b111101 /"
 #1250000
-b11110 D
+b111101 E
 1$
 #1260000
 0$
-b111110 &"
+b111110 /"
 #1270000
-1S
-b110 ?
-b11 @
-b0 D
+b111110 E
 1$
 #1280000
 0$
-b111111 &"
+b111111 /"
 #1290000
-b111100000000 =
-b111100000000 U
-1V
-b1011010000 X
-1:
-b1000000000 W
-b1 D
+b111111 E
 1$
 #1300000
 0$
-b1000000 &"
+b1000000 /"
 #1310000
-b10 D
+b1000000 E
 1$
 #1320000
 0$
-b1000001 &"
+b1000001 /"
 #1330000
-b11 D
+b1000001 E
 1$
 #1340000
 0$
-b1000010 &"
+b1000010 /"
 #1350000
-b100 D
+b1000010 E
 1$
 #1360000
 0$
-b1000011 &"
+b1000011 /"
 #1370000
-b101 D
+b1000011 E
 1$
 #1380000
 0$
-b1000100 &"
+b1000100 /"
 #1390000
-b110 D
+b1000100 E
 1$
 #1400000
 0$
-b1000101 &"
+b1000101 /"
 #1410000
-b111 D
+b1000101 E
 1$
 #1420000
 0$
-b1000110 &"
+b1000110 /"
 #1430000
-b1000 D
+b1000110 E
 1$
 #1440000
 0$
-b1000111 &"
+b1000111 /"
 #1450000
-b1001 D
+b1000111 E
 1$
 #1460000
 0$
-b1001000 &"
+b1001000 /"
 #1470000
-b1010 D
+b1001000 E
 1$
 #1480000
 0$
-b1001001 &"
+b1001001 /"
 #1490000
-b1011 D
+b1001001 E
 1$
 #1500000
 0$
-b1001010 &"
+b1001010 /"
 #1510000
-b1100 D
+b1001010 E
 1$
 #1520000
 0$
-b1001011 &"
+b1001011 /"
 #1530000
-b1101 D
+b1001011 E
 1$
 #1540000
 0$
-b1001100 &"
+b1001100 /"
 #1550000
-b1110 D
+b1001100 E
 1$
 #1560000
 0$
-b1001101 &"
+b1001101 /"
 #1570000
-b1111 D
+b1001101 E
 1$
 #1580000
 0$
-b1001110 &"
+b1001110 /"
 #1590000
-b10000 D
+b1001110 E
 1$
 #1600000
 0$
-b1001111 &"
+b1001111 /"
 #1610000
-b10001 D
+b1001111 E
 1$
 #1620000
 0$
-b1010000 &"
+b1010000 /"
 #1630000
-b10010 D
+b1010000 E
 1$
 #1640000
 0$
-b1010001 &"
+b1010001 /"
 #1650000
-b10011 D
+b1010001 E
 1$
 #1660000
 0$
-b1010010 &"
+b1010010 /"
 #1670000
-b10100 D
+b1010010 E
 1$
 #1680000
 0$
-b1010011 &"
+b1010011 /"
 #1690000
-b10101 D
+b1010011 E
 1$
 #1700000
 0$
-b1010100 &"
+b1010100 /"
 #1710000
-b10110 D
+b1010100 E
 1$
 #1720000
 0$
-b1010101 &"
+b1010101 /"
 #1730000
-b10111 D
+b1010101 E
 1$
 #1740000
 0$
-b1010110 &"
+b1010110 /"
 #1750000
-b11000 D
+b1010110 E
 1$
 #1760000
 0$
-b1010111 &"
+b1010111 /"
 #1770000
-b11001 D
+b1010111 E
 1$
 #1780000
 0$
-b1011000 &"
+b1011000 /"
 #1790000
-b11010 D
+b1011000 E
 1$
 #1800000
 0$
-b1011001 &"
+b1011001 /"
 #1810000
-b11011 D
+b1011001 E
 1$
 #1820000
 0$
-b1011010 &"
+b1011010 /"
 #1830000
-b11100 D
+b1011010 E
 1$
 #1840000
 0$
-b1011011 &"
+b1011011 /"
 #1850000
-b11101 D
+b1011011 E
 1$
 #1860000
 0$
-b1011100 &"
+b1011100 /"
 #1870000
-b11110 D
+b1011100 E
 1$
 #1880000
 0$
-b1011101 &"
+b1011101 /"
 #1890000
-1]
-b1001 ?
-b111 @
-b0 D
+b1011101 E
 1$
 #1900000
 0$
-b1011110 &"
+b1011110 /"
 #1910000
-b110100000000 !
-b110100000000 C
-b111100000000 <
-b111100000000 _
-b1 D
-1`
-b110000000 b
-19
-b0 a
+b1011110 E
 1$
 #1920000
 0$
-b1011111 &"
+b1011111 /"
 #1930000
-b10 D
+b1011111 E
 1$
 #1940000
 0$
-b1100000 &"
+b1100000 /"
 #1950000
-b11 D
+b1100000 E
 1$
 #1960000
 0$
-b1100001 &"
+b1100001 /"
 #1970000
-b100 D
+b1100001 E
 1$
 #1980000
 0$
-b1100010 &"
+b1100010 /"
 #1990000
-b101 D
+b1100010 E
 1$
 #2000000
 0$
-b1100011 &"
+b1100011 /"
 #2010000
-b110 D
+b1100011 E
 1$
 #2020000
 0$
-b1100100 &"
+b1100100 /"
 #2030000
-b111 D
+b1100100 E
 1$
 #2040000
 0$
 #2050000
-b1000 D
+b1100101 E
 1$
 #2060000
 0$
 #2070000
-b1001 D
+b1100110 E
 1$
 #2080000
 0$
 #2090000
-b1010 D
+b1100111 E
 1$
 #2100000
 0$
 #2110000
-b1011 D
+b1101000 E
 1$
 #2120000
 0$
