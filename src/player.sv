@@ -50,10 +50,14 @@ always_ff @(posedge clk)begin
                 if(busy_out_buffer == 1)begin
 			if(hcount_in == 0 && vcount_in == 0)begin
 				attack_bar_x <= attack_bar_x + 8;
-				if(attack_bar_x >= 768)begin
+				/*if(attack_bar_x >= 768)begin
 					busy_out_buffer <= 0;
 					finished_out <= 1;
-				end
+				end*/
+			end
+			if(attack_bar_x >= 768)begin
+				busy_out_buffer <= 0;
+				finished_out <= 1;
 			end
                         /*timing_count <= timing_count + 1;
                         if(timing_count == 30)begin
@@ -62,7 +66,7 @@ always_ff @(posedge clk)begin
                                 busy_out_buffer <= 0;
                         end*/
                 end
-                if(finished_out == 1)
+                if(finished_out == 1 && state_in != 4'b0001)
 			finished_out <= 0;
                 old_state_in <= state_in;
         end

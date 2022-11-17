@@ -12,6 +12,7 @@ module enemy(
 
 	output logic busy_out, //busy while this is high
 	output logic finished_out, //asserted high for one clk cycle when the module exits busy state
+	output logic damage_out,
 	output logic[11:0] pixel_out //pixel output
 );
 logic busy_out_buffer;
@@ -34,9 +35,10 @@ logic[23:0] arrow_valid_in;
 //logic[11:0][23:0] arrow_out;
 logic[23:0] arrow_out[11:0];
 logic[23:0] arrow_valid_out;
-arrow #(8,32) arrow1(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[0]),.speed_in(0),.direction_in(2'b00),.inversed_in(0),.pixel_out(arrow_out_1),.valid_out(/*arrow_valid_1*/arrow_valid_out[0]));
-arrow #(8,32) arrow2(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[1]),.speed_in(0),.direction_in(2'b01),.inversed_in(0),.pixel_out(arrow_out_2),.valid_out(/*arrow_valid_2*/arrow_valid_out[1]));
-arrow #(8,32) arrow3(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[2]),.speed_in(0),.direction_in(2'b10),.inversed_in(0),.pixel_out(arrow_out_3),.valid_out(/*arrow_valid_3*/arrow_valid_out[2]));
+logic[23:0] hit_player_out;
+arrow #(8,32) arrow1(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[0]),.speed_in(0),.direction_in(2'b00),.inversed_in(0),.pixel_out(arrow_out_1),.valid_out(/*arrow_valid_1*/arrow_valid_out[0]),.hit_player(hit_player_out[0]));
+arrow #(8,32) arrow2(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[1]),.speed_in(0),.direction_in(2'b01),.inversed_in(0),.pixel_out(arrow_out_2),.valid_out(/*arrow_valid_2*/arrow_valid_out[1]),.hit_player(hit_player_out[1]));
+arrow #(8,32) arrow3(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[2]),.speed_in(0),.direction_in(2'b10),.inversed_in(0),.pixel_out(arrow_out_3),.valid_out(/*arrow_valid_3*/arrow_valid_out[2]),.hit_player(hit_player_out[2]));
 
 //arrow out individual
 //logic arrow_valid_1,arrow_valid_2,arrow_valid_3;
@@ -117,6 +119,12 @@ always_ff @(posedge clk)begin
 				busy_out_buffer <= 0;
 			end
 		end
+		if(hit_player_out != 0)begin
+			damage_out <= 1;
+			//hit_player_out <= 0;
+		end
+		if(damage_out == 1)
+			damage_out <= 0;
 	        old_state_in <= state_in;
 		old_arrow_valid_out <= arrow_valid_out;
 		if(finished_out == 1)begin

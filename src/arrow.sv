@@ -12,7 +12,8 @@ module arrow #(parameter WIDTH = 8,HEIGHT = 32)(
 	input wire inversed_in,
 
 	output logic[11:0] pixel_out,
-	output logic valid_out
+	output logic valid_out,
+	output logic hit_player
 );
 
 
@@ -21,10 +22,12 @@ logic[9:0] y;
 logic old_valid_in;
 logic valid_out_buffer;
 logic is_hit;
+logic hit_player_buffer;
 always_ff @(posedge clk)begin
 	/*if(rst)begin
-		pixel_out <= 0;
-		valid_out <= 0;
+		//pixel_out <= 0;
+		//valid_out <= 0;
+		//hit_player_buffer <= 0;
 	end
 	else begin*/
 		if(~old_valid_in && valid_in)begin
@@ -54,29 +57,35 @@ always_ff @(posedge clk)begin
                                         	y <= y + 4;
 						if(y >= 384)begin
 							is_hit <= 1;
+							hit_player_buffer <= 1;
 						end
                                	 	end
                                 	2'b01:begin
                                         	y <= y - 4;
 						if(y <= 384)begin
 							is_hit <= 1;
+							hit_player_buffer <= 1;
 						end
                                 	end
                                 	2'b10:begin
                                         	x <= x + 4;
 						if(x >= 512)begin
 							is_hit <= 1;
+							hit_player_buffer <= 1;
 						end
                                 	end
                                 	2'b11:begin
                                         	x <= x - 4;
 						if(x <= 512)begin
 							is_hit <= 1;
+							hit_player_buffer <= 1;
 						end
                                 	end
                         	endcase
                 	end
 		end
+		/*if(hit_player_buffer)
+			hit_player_buffer <= 0;*/
 	//end
 	//valid_out = valid_in ? /*(hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT)*//*1 : 0;
 	//valid_out = (hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT);
@@ -84,6 +93,7 @@ always_ff @(posedge clk)begin
 	old_valid_in <= valid_in;
 end
 assign valid_out = (valid_in && ~is_hit) ? ((hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT)) : 0;
+assign hit_player = hit_player_buffer;
 /*always_comb begin
 	valid_out_buffer = (hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT);
 end*/
