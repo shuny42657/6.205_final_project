@@ -29,6 +29,8 @@ always_comb begin
 	if(busy_out_buffer == 1)begin
 		pixel_out = frame_bottom_pixel + frame_top_pixel + frame_left_pixel + frame_right_pixel;
 	end
+	else
+		pixel_out = frame_bottom_pixel;
 end
 always_ff @(posedge clk)begin
 	if(rst)begin
@@ -47,10 +49,13 @@ always_ff @(posedge clk)begin
 				timing_count <= 0;
 				finished_out <= 1;
 				busy_out_buffer <= 0;
+				//old_state_in = 4'b1010;
 			end
+			//old_state_in <= state_in;
 		end
-		if(finished_out == 1)
+		if(finished_out == 1)begin
 			finished_out <= 0;
+		end
 		old_state_in <= state_in;
 	end
 end
