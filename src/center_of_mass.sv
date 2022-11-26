@@ -80,12 +80,16 @@ module center_of_mass (
 	  old_valid_out <= valid_out;
   end
 
-  logic 
+ 
   always_comb begin
-	  if(x_avg <= 160)begin
-		  rotate_out = 2'b10;
-	  end else begin
-		  rotate_out = 2'b11;
+	  if(3*x_avg + 2*y_avg<=960 && 3*x_avg > 2*y_avg)begin
+		  rotate_out = 2'b00;//top
+	  end else if(3*x_avg + 2*y_avg>960 && 3*x_avg <= 2*y_avg)begin
+		  rotate_out = 2'b01;//bottom
+	  end else if(3*x_avg + 2*y_avg>960 && 3*x_avg > 2*y_avg)begin
+		  rotate_out = 2'b10;//right
+	  end else if(3*x_avg + 2*y_avg<=960 && 3*x_avg <= 2*y_avg)begin
+		  rotate_out = 2'b11;//left
 	  end
   end
 endmodule

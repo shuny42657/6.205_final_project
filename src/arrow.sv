@@ -23,6 +23,7 @@ logic old_valid_in;
 logic valid_out_buffer;
 logic is_hit;
 logic hit_player_buffer;
+logic old_hit_player_buffer;
 always_ff @(posedge clk)begin
 	/*if(rst)begin
 		//pixel_out <= 0;
@@ -55,28 +56,28 @@ always_ff @(posedge clk)begin
                         	case(direction_in)
                                 	2'b00:begin
                                         	y <= y + 4;
-						if(y >= 384)begin
+						if(y >= 384 && ~is_hit)begin
 							is_hit <= 1;
 							hit_player_buffer <= 1;
 						end
                                	 	end
                                 	2'b01:begin
                                         	y <= y - 4;
-						if(y <= 384)begin
+						if(y <= 384 && ~is_hit)begin
 							is_hit <= 1;
 							hit_player_buffer <= 1;
 						end
                                 	end
                                 	2'b10:begin
                                         	x <= x + 4;
-						if(x >= 512)begin
+						if(x >= 512 && ~is_hit)begin
 							is_hit <= 1;
 							hit_player_buffer <= 1;
 						end
                                 	end
                                 	2'b11:begin
                                         	x <= x - 4;
-						if(x <= 512)begin
+						if(x <= 512 && ~is_hit)begin
 							is_hit <= 1;
 							hit_player_buffer <= 1;
 						end
@@ -91,6 +92,8 @@ always_ff @(posedge clk)begin
 	//valid_out = (hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT);
 	//pixel_out = valid_out ? 12'hF00 : 0;
 	old_valid_in <= valid_in;
+	if(hit_player_buffer)
+		hit_player_buffer <= 0;
 end
 assign valid_out = (valid_in && ~is_hit) ? ((hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT)) : 0;
 assign hit_player = hit_player_buffer;

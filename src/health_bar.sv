@@ -19,9 +19,8 @@ always_ff @(posedge clk)begin
 		border_x <= 528; 
 	end
 	else begin
-		if(hcount_in == 0 && vcount_in == 0)begin
-			if(old_damage_in != damage_in && damage_in)
-				border_x <= border_x - 4;
+		if(old_damage_in != damage_in && damage_in && border_x >= 496)begin
+			border_x <= border_x - 16;
 		end
 	end
 	old_damage_in <= damage_in;

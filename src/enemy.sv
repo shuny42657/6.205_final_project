@@ -90,6 +90,7 @@ always_ff @(posedge clk)begin
 		old_state_in <= 4'b1010;
 		arrow_count_first <= 0;
 		pattern_ended <= 0;
+		hit_player_out <= 0;
 		//pixel_out <= 0;
 	end else begin
 		if(state_in == 4'b1000 && old_state_in != state_in)begin
@@ -119,7 +120,7 @@ always_ff @(posedge clk)begin
 				busy_out_buffer <= 0;
 			end
 		end
-		if(hit_player_out != 0)begin
+		if(hit_player_out[0] == 1)begin
 			damage_out <= 1;
 			//hit_player_out <= 0;
 		end
