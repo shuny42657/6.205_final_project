@@ -36,9 +36,9 @@ logic[23:0] arrow_valid_in;
 logic[23:0] arrow_out[11:0];
 logic[23:0] arrow_valid_out;
 logic[23:0] hit_player_out;
-arrow #(8,32) arrow1(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[0]),.speed_in(0),.direction_in(2'b00),.inversed_in(0),.pixel_out(arrow_out_1),.valid_out(/*arrow_valid_1*/arrow_valid_out[0]),.hit_player(hit_player_out[0]));
-arrow #(8,32) arrow2(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[1]),.speed_in(0),.direction_in(2'b01),.inversed_in(0),.pixel_out(arrow_out_2),.valid_out(/*arrow_valid_2*/arrow_valid_out[1]),.hit_player(hit_player_out[1]));
-arrow #(8,32) arrow3(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[2]),.speed_in(0),.direction_in(2'b10),.inversed_in(0),.pixel_out(arrow_out_3),.valid_out(/*arrow_valid_3*/arrow_valid_out[2]),.hit_player(hit_player_out[2]));
+arrow #(8,32) arrow1(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[0]),.speed_in(0),.direction_in(2'b00),.inversed_in(0),.rotate_in(rotate_in),.pixel_out(arrow_out_1),.valid_out(/*arrow_valid_1*/arrow_valid_out[0]),.hit_player(hit_player_out[0]));
+arrow #(8,32) arrow2(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[1]),.speed_in(0),.direction_in(2'b01),.inversed_in(0),.rotate_in(rotate_in),.pixel_out(arrow_out_2),.valid_out(/*arrow_valid_2*/arrow_valid_out[1]),.hit_player(hit_player_out[1]));
+arrow #(32,8) arrow3(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[2]),.speed_in(0),.direction_in(2'b10),.inversed_in(0),.rotate_in(rotate_in),.pixel_out(arrow_out_3),.valid_out(/*arrow_valid_3*/arrow_valid_out[2]),.hit_player(hit_player_out[2]));
 
 //arrow out individual
 //logic arrow_valid_1,arrow_valid_2,arrow_valid_3;
@@ -56,7 +56,7 @@ block_sprite #(160,8,432,456,12'hFFF) frame_bottom(.is_fixed(1),.x_in(0),.hcount
 
 logic[11:0] green_heart_pixel_out;
 logic green_heart_valid_out;
-//image_sprite #(256,256) green_heart(.pixel_clk_in(clk),.rst_in(rst),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.pixel_out(green_heart_pixel_out),.in_sprite(green_heart_valid_out));
+image_sprite #(64,64) green_heart(.pixel_clk_in(clk),.rst_in(rst),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.pixel_out(green_heart_pixel_out),.in_sprite(green_heart_valid_out));
 
 always_comb begin
 	if(busy_out_buffer)begin

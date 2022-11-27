@@ -60,6 +60,7 @@ player pl(
 	.hcount_in(hcount_in),
 	.vcount_in(vcount_in),
 	.state_in(state_out),
+	.rotate_in(rotate_in),
 	.busy_out(player_busy_out),
 	.finished_out(player_finish_out),
 	.pixel_out(player_pixel_out)

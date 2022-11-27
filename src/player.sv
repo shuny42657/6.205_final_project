@@ -6,7 +6,7 @@ module player(
         input wire[10:0] hcount_in,
         input wire[9:0] vcount_in,
         input wire[3:0] state_in,
-
+	input wire[1:0] rotate_in,
         output logic busy_out,
         output logic finished_out,
         output logic[11:0] pixel_out
@@ -28,6 +28,8 @@ logic [9:0] attack_bar_y;
 
 logic busy_out_buffer;
 logic[3:0] old_state_in;
+logic swipe_set; //set high when rotate_in once becomes 2'b00 (up)
+logic bar_stopped; //set high when bar should be stopped
 logic[31:0] timing_count;
 always_comb begin
         if(busy_out_buffer == 1)begin
@@ -46,26 +48,39 @@ always_ff @(posedge clk)begin
                         timing_count <= 0;
 			attack_bar_x <= 128;
 			attack_bar_y <= 400; 
+			swipe_set <= 0;
+			bar_stopped <= 0;
                 end
                 if(busy_out_buffer == 1)begin
+			if(rotate_in == 2'b00 && ~swipe_set)
+				swipe_set <= 1;
+			if(rotate_in == 2'b01 && swipe_set)begin
+				//busy_out_buffer <= 0;
+				//finished_out <= 1;
+				bar_stopped <= 1;
+			end
 			if(hcount_in == 0 && vcount_in == 0)begin
-				attack_bar_x <= attack_bar_x + 8;
+				attack_bar_x <= bar_stopped ? attack_bar_x : attack_bar_x + 8;
 				/*if(attack_bar_x >= 768)begin
 					busy_out_buffer <= 0;
 					finished_out <= 1;
 				end*/
 			end
+
 			if(attack_bar_x >= 768)begin
 				busy_out_buffer <= 0;
 				finished_out <= 1;
 			end
-                        /*timing_count <= timing_count + 1;
-                        if(timing_count == 30)begin
-                                timing_count <= 0;
-                                finished_out <= 1;
-                                busy_out_buffer <= 0;
-                        end*/
-                end
+			
+			if(bar_stopped)begin
+				timing_count <= timing_count + 1;
+				if(timing_count == 5*6500000)begin
+					timing_count <= 0;
+					finished_out <= 1;
+					busy_out_buffer <= 0;
+				end
+			end
+		end
                 if(finished_out == 1 && state_in != 4'b0001)
 			finished_out <= 0;
                 old_state_in <= state_in;

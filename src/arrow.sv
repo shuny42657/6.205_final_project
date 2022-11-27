@@ -10,6 +10,7 @@ module arrow #(parameter WIDTH = 8,HEIGHT = 32)(
 	input wire[2:0] speed_in,
 	input wire[1:0] direction_in,
 	input wire inversed_in,
+	input wire[1:0] rotate_in,
 
 	output logic[11:0] pixel_out,
 	output logic valid_out,
@@ -51,25 +52,36 @@ always_ff @(posedge clk)begin
                         	end
                 	endcase
 			is_hit <= 0;
+			hit_player <= 0;
         	end else if(old_valid_in && valid_in)begin
                 	if(hcount_in == 0 && vcount_in == 0)begin
                         	case(direction_in)
                                 	2'b00:begin
                                         	y <= y + 4;
-						if(y >= 384 && ~is_hit)begin
+						if(rotate_in == 2'b00 && y >= 288 && y <= 320 && ~is_hit)begin
 							is_hit <= 1;
-							hit_player_buffer <= 1;
+						end
+						else if(y >= 384 && ~is_hit)begin
+							is_hit <= 1;
+							//hit_player_buffer <= 1;
+							hit_player <= 1;
 						end
                                	 	end
                                 	2'b01:begin
                                         	y <= y - 4;
-						if(y <= 384 && ~is_hit)begin
+						if(rotate_in == 2'b01 && y <= 440 && y <= 472 && ~is_hit)begin
+							is_hit <= 1;
+						end
+						else if(y <= 384 && ~is_hit)begin
 							is_hit <= 1;
 							hit_player_buffer <= 1;
 						end
                                 	end
                                 	2'b10:begin
                                         	x <= x + 4;
+						if(rotate_in == 2'b10 && x >= 448 && x <= 480 && ~is_hit)begin
+							is_hit <= 1;
+						end
 						if(x >= 512 && ~is_hit)begin
 							is_hit <= 1;
 							hit_player_buffer <= 1;
@@ -77,7 +89,10 @@ always_ff @(posedge clk)begin
                                 	end
                                 	2'b11:begin
                                         	x <= x - 4;
-						if(x <= 512 && ~is_hit)begin
+						if(rotate_in == 2'b11 && x <= 568 && x >= 536 && ~is_hit)begin
+							is_hit <= 1;
+						end
+						else if(x <= 512 && ~is_hit)begin
 							is_hit <= 1;
 							hit_player_buffer <= 1;
 						end
@@ -96,7 +111,7 @@ always_ff @(posedge clk)begin
 		hit_player_buffer <= 0;
 end
 assign valid_out = (valid_in && ~is_hit) ? ((hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT)) : 0;
-assign hit_player = hit_player_buffer;
+//assign hit_player = hit_player_buffer;
 /*always_comb begin
 	valid_out_buffer = (hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT);
 end*/
