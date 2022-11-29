@@ -8,6 +8,8 @@ module game_state(
 	input wire [10:0] hcount_in,
 	input wire[9:0] vcount_in,
 	input wire[1:0] rotate_in,
+	input wire[1:0] key_input_in,
+	input wire decide_in,
 
 	output logic[11:0] pixel_out
 );
@@ -49,6 +51,8 @@ menu mn(
 	.hcount_in(hcount_in),
 	.vcount_in(vcount_in),
 	.state_in(state_out),
+	.key_input_in(key_input_in),
+	.decide_in(decide_in),
 	.busy_out(menu_busy_out),
 	.finished_out(menu_finish_out),
 	.pixel_out(menu_pixel_out)

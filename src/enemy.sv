@@ -124,6 +124,7 @@ always_ff @(posedge clk)begin
 				finished_out <= 1;
 				busy_out_buffer <= 0;
 			end*/
+
 		end
 		if(hit_player_out != 0)begin
 			damage_out <= 1;

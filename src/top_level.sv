@@ -84,6 +84,12 @@ logic [16:0] pixel_addr_in; //address of rotated pixel in 240X320 memory
   logic [9:0] y_com, y_com_calc; //long term y_com and output from module, resp
   logic new_com; //used to know when to update x_com and y_com ...
   //using x_com_calc and y_com_calc values
+  //
+
+//key_input variables
+
+  logic key_input_valid_out;
+  logic[1:0] key_input_out;
 
   //output of image sprite
   //Output of sprite that should be centered on Center of Mass (x_com, y_com):
@@ -250,6 +256,16 @@ vga vga_gen(
     .rotate_out(rotate_out),
     .valid_out(new_com));
 
+ key_input(
+	 .clk_in(clk_65mhz),
+	 .rst_in(sys_rst),
+	 .x_in(hcount),
+	 .y_in(vcount),
+	 .valid_in(mask),
+	 .tabulate_in((hcount==0 && vcount == 0)),
+	 .key_input_out(key_input_out),
+	 .valid_out(key_input_valid_out));
+
   //update center of mass x_com, y_com based on new_com signal
   always_ff @(posedge clk_65mhz)begin
     if (sys_rst)begin
@@ -305,6 +321,8 @@ game_state gm(
 	.hcount_in(hcount),
 	.vcount_in(vcount),
 	.rotate_in(rotate_out),
+	.key_input_in(key_input_out),
+	.decide_in(btnu),
 	.pixel_out(color));
 
 /*assign vga_r = ~blank ? color[11:8]: 0;
