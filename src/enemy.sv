@@ -26,7 +26,7 @@ logic[9:0] speeds[71:0];
 logic[9:0] directions[47:0];
 logic[9:0] inverseds[23:0];
 //patterns
-pattern #(/*72'h249_249_249_249_249_249*/72'b001001001,72'h249_249_249_249_249_249,48'h0,24'h0,0) pattern1(.turn_in(turn_in),.valid_out(pattern_valid_1),.timing(timings[0]),.speed(speeds[0]),.direction(directions[0]),.inversed(inverseds[0]));
+pattern #(3,/*72'h249_249_249_249_249_249*/72'b001001001,72'h249_249_249_249_249_249,48'h0,24'h0,0) pattern1(.turn_in(turn_in),.valid_out(pattern_valid_1),.arrows(arrow_max),.timing(timings[0]),.speed(speeds[0]),.direction(directions[0]),.inversed(inverseds[0]));
 logic pattern_valid_1;
 //assign timings[0] = 72'h249_249_249_249_249_249;
 //logic[23:0] arrow_on;
@@ -36,9 +36,11 @@ logic[23:0] arrow_valid_in;
 logic[23:0] arrow_out[11:0];
 logic[23:0] arrow_valid_out;
 logic[23:0] hit_player_out;
-arrow #(8,32) arrow1(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[0]),.speed_in(0),.direction_in(2'b00),.inversed_in(0),.rotate_in(rotate_in),.pixel_out(arrow_out_1),.valid_out(/*arrow_valid_1*/arrow_valid_out[0]),.hit_player(hit_player_out[0]));
-arrow #(8,32) arrow2(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[1]),.speed_in(0),.direction_in(2'b01),.inversed_in(0),.rotate_in(rotate_in),.pixel_out(arrow_out_2),.valid_out(/*arrow_valid_2*/arrow_valid_out[1]),.hit_player(hit_player_out[1]));
-arrow #(32,8) arrow3(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[2]),.speed_in(0),.direction_in(2'b10),.inversed_in(0),.rotate_in(rotate_in),.pixel_out(arrow_out_3),.valid_out(/*arrow_valid_3*/arrow_valid_out[2]),.hit_player(hit_player_out[2]));
+logic[23:0] is_hit_out;
+logic[4:0] arrow_max;
+arrow #(8,32) arrow1(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[0]),.speed_in(0),.direction_in(2'b00),.inversed_in(0),.rotate_in(rotate_in),.pixel_out(arrow_out_1),.valid_out(/*arrow_valid_1*/arrow_valid_out[0]),.is_hit(is_hit_out[0]),.hit_player(hit_player_out[0]));
+arrow #(8,32) arrow2(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[1]),.speed_in(0),.direction_in(2'b01),.inversed_in(0),.rotate_in(rotate_in),.pixel_out(arrow_out_2),.valid_out(/*arrow_valid_2*/arrow_valid_out[1]),.is_hit(is_hit_out[1]),.hit_player(hit_player_out[1]));
+arrow #(32,8) arrow3(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[2]),.speed_in(0),.direction_in(2'b10),.inversed_in(0),.rotate_in(rotate_in),.pixel_out(arrow_out_3),.valid_out(/*arrow_valid_3*/arrow_valid_out[2]),.is_hit(is_hit_out[2]),.hit_player(hit_player_out[2]));
 
 //arrow out individual
 //logic arrow_valid_1,arrow_valid_2,arrow_valid_3;
@@ -75,7 +77,7 @@ always_comb begin
 		pixel_out = frame_bottom_pixel;
 	end
 end
-
+logic[4:0] arrow_count;
 logic[31:0] timing_count;
 logic[6:0] arrow_count_first;
 logic pattern_ended;
@@ -90,7 +92,7 @@ always_ff @(posedge clk)begin
 		old_state_in <= 4'b1010;
 		arrow_count_first <= 0;
 		pattern_ended <= 0;
-		hit_player_out <= 0;
+		//hit_player_out <= 0;
 		//pixel_out <= 0;
 	end else begin
 		if(state_in == 4'b1000 && old_state_in != state_in)begin
@@ -99,7 +101,8 @@ always_ff @(posedge clk)begin
 			timing_count <= 0;
 			//arrow_count_first <= 0;
 			arrow_valid_in <= 24'h000000;
-			old_arrow_valid_out <= 0;
+			old_arrow_valid_out <= arrow_valid_out;
+			arrow_count <= 0;
 		end
 		if(busy_out_buffer ==1)begin
 			if(timings[0][arrow_count_first+:3] == 3'b0)begin
@@ -111,23 +114,32 @@ always_ff @(posedge clk)begin
                         	if(timing_count == /*timings[0][arrow_count+:3]5*6500000*/timings[0][arrow_count_first+:3]*5*6500000)begin
                                 	arrow_valid_in <= {arrow_valid_in[22:0],1'b1};
                                 	arrow_count_first <= arrow_count_first + 3;
+					//if(arrow_count < arrow_max)
+						//arrow_count <= arrow_count + 1;
                                 	timing_count <= 0;
                         	end
 			end
 
-			if(pattern_ended && arrow_valid_out == 0)begin
+			/*if(pattern_ended && arrow_valid_out == 0)begin
 				finished_out <= 1;
 				busy_out_buffer <= 0;
-			end
+			end*/
 		end
-		if(hit_player_out[0] == 1)begin
+		if(hit_player_out != 0)begin
 			damage_out <= 1;
 			//hit_player_out <= 0;
+		end
+		if(is_hit_out != 0 && arrow_count < arrow_max)begin
+			arrow_count <= arrow_count + 1;
 		end
 		if(damage_out == 1)
 			damage_out <= 0;
 	        old_state_in <= state_in;
 		old_arrow_valid_out <= arrow_valid_out;
+		if(arrow_count == arrow_max)begin
+			finished_out <= 1;
+			busy_out_buffer <= 0;
+		end
 		if(finished_out == 1)begin
 			finished_out <= 0;
 		end
@@ -140,4 +152,3 @@ end
 assign busy_out = busy_out_buffer;
 endmodule
 `default_nettype wire
-

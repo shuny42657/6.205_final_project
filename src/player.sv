@@ -26,14 +26,18 @@ block_sprite #(8,160,128,568,12'hFFF) attack_bar(.is_fixed(0),.x_in(attack_bar_x
 logic [10:0] attack_bar_x;
 logic [9:0] attack_bar_y;
 
+logic[11:0] enemy_health_bar_out;
+logic[11:0] enemy_health_bar_border_in;
+enemy_health_bar #(416,288,192,16) enemy_health(.clk(clk),.rst(rst),.valid_in(bar_stopped),.hcount_in(hcount_in),.vcount_in(vcount_in),.border_in(enemy_health_bar_border_in),.pixel_out(enemy_health_bar_out));
 logic busy_out_buffer;
 logic[3:0] old_state_in;
 logic swipe_set; //set high when rotate_in once becomes 2'b00 (up)
 logic bar_stopped; //set high when bar should be stopped
+logic[10:0] round_damage;
 logic[31:0] timing_count;
 always_comb begin
         if(busy_out_buffer == 1)begin
-                pixel_out = frame_bottom_pixel + frame_top_pixel + frame_left_pixel + frame_right_pixel + attack_bar_pixel;
+                pixel_out = frame_bottom_pixel + frame_top_pixel + frame_left_pixel + frame_right_pixel + attack_bar_pixel + enemy_health_bar_out;
         end
 end
 always_ff @(posedge clk)begin
@@ -41,6 +45,7 @@ always_ff @(posedge clk)begin
                 finished_out <= 0;
                 busy_out_buffer <= 0;
                 old_state_in = 4'b1010;
+		enemy_health_bar_border_in <= 192;
         end
         else begin
                 if(old_state_in != state_in && state_in == 4'b0001)begin
@@ -50,6 +55,8 @@ always_ff @(posedge clk)begin
 			attack_bar_y <= 400; 
 			swipe_set <= 0;
 			bar_stopped <= 0;
+			//enemy_health_bar_border_in <= 192;
+			round_damage <= 24;
                 end
                 if(busy_out_buffer == 1)begin
 			if(rotate_in == 2'b00 && ~swipe_set)
@@ -73,12 +80,19 @@ always_ff @(posedge clk)begin
 			end
 			
 			if(bar_stopped)begin
-				timing_count <= timing_count + 1;
-				if(timing_count == 5*6500000)begin
-					timing_count <= 0;
-					finished_out <= 1;
-					busy_out_buffer <= 0;
+				if(hcount_in == 0 && vcount_in == 0 && round_damage > 0)begin
+					round_damage <= round_damage - 2;
+					enemy_health_bar_border_in <= enemy_health_bar_border_in - 2;
 				end
+			        else if(round_damage == 0)begin
+					timing_count <= timing_count + 1;
+				        if(timing_count == 10*6500000)begin
+					        timing_count <= 0;
+					        finished_out <= 1;
+					        busy_out_buffer <= 0;
+					        bar_stopped <= 0;
+				        end
+			        end
 			end
 		end
                 if(finished_out == 1 && state_in != 4'b0001)

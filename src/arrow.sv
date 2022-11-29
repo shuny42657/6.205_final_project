@@ -14,6 +14,7 @@ module arrow #(parameter WIDTH = 8,HEIGHT = 32)(
 
 	output logic[11:0] pixel_out,
 	output logic valid_out,
+	output logic is_hit,
 	output logic hit_player
 );
 
@@ -52,7 +53,7 @@ always_ff @(posedge clk)begin
                         	end
                 	endcase
 			is_hit <= 0;
-			hit_player <= 0;
+			hit_player_buffer <= 0;
         	end else if(old_valid_in && valid_in)begin
                 	if(hcount_in == 0 && vcount_in == 0)begin
                         	case(direction_in)
@@ -63,8 +64,8 @@ always_ff @(posedge clk)begin
 						end
 						else if(y >= 384 && ~is_hit)begin
 							is_hit <= 1;
-							//hit_player_buffer <= 1;
-							hit_player <= 1;
+							hit_player_buffer <= 1;
+							//hit_player <= 1;
 						end
                                	 	end
                                 	2'b01:begin
@@ -111,7 +112,7 @@ always_ff @(posedge clk)begin
 		hit_player_buffer <= 0;
 end
 assign valid_out = (valid_in && ~is_hit) ? ((hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT)) : 0;
-//assign hit_player = hit_player_buffer;
+assign hit_player = hit_player_buffer;
 /*always_comb begin
 	valid_out_buffer = (hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT);
 end*/

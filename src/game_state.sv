@@ -56,7 +56,7 @@ menu mn(
 
 player pl(
 	.clk(clk),
-	.rst(state_rst),
+	.rst(/*state_rst*/rst),
 	.hcount_in(hcount_in),
 	.vcount_in(vcount_in),
 	.state_in(state_out),
