@@ -38,7 +38,7 @@ logic[23:0] arrow_valid_out;
 logic[23:0] hit_player_out;
 logic[23:0] is_hit_out;
 logic[4:0] arrow_max;
-arrow #(8,32) arrow1(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[0]),.speed_in(0),.direction_in(2'b00),.inversed_in(0),.rotate_in(rotate_in),.pixel_out(arrow_out_1),.valid_out(/*arrow_valid_1*/arrow_valid_out[0]),.is_hit(is_hit_out[0]),.hit_player(hit_player_out[0]));
+arrow #(8,32) arrow1(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[0]),.speed_in(0),.direction_in(2'b00),.inversed_in(1),.rotate_in(rotate_in),.pixel_out(arrow_out_1),.valid_out(/*arrow_valid_1*/arrow_valid_out[0]),.is_hit(is_hit_out[0]),.hit_player(hit_player_out[0]));
 arrow #(8,32) arrow2(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[1]),.speed_in(0),.direction_in(2'b01),.inversed_in(0),.rotate_in(rotate_in),.pixel_out(arrow_out_2),.valid_out(/*arrow_valid_2*/arrow_valid_out[1]),.is_hit(is_hit_out[1]),.hit_player(hit_player_out[1]));
 arrow #(32,8) arrow3(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(arrow_valid_in[2]),.speed_in(0),.direction_in(2'b10),.inversed_in(0),.rotate_in(rotate_in),.pixel_out(arrow_out_3),.valid_out(/*arrow_valid_3*/arrow_valid_out[2]),.is_hit(is_hit_out[2]),.hit_player(hit_player_out[2]));
 
@@ -120,10 +120,10 @@ always_ff @(posedge clk)begin
                         	end
 			end
 
-			/*if(pattern_ended && arrow_valid_out == 0)begin
+			if(pattern_ended && arrow_valid_out == 0)begin
 				finished_out <= 1;
 				busy_out_buffer <= 0;
-			end*/
+			end
 
 		end
 		if(hit_player_out != 0)begin
@@ -137,10 +137,10 @@ always_ff @(posedge clk)begin
 			damage_out <= 0;
 	        old_state_in <= state_in;
 		old_arrow_valid_out <= arrow_valid_out;
-		if(arrow_count == arrow_max)begin
+		/*if(arrow_count == arrow_max)begin
 			finished_out <= 1;
 			busy_out_buffer <= 0;
-		end
+		end*/
 		if(finished_out == 1)begin
 			finished_out <= 0;
 		end

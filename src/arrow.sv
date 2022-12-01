@@ -26,6 +26,10 @@ logic valid_out_buffer;
 logic is_hit;
 logic hit_player_buffer;
 logic old_hit_player_buffer;
+logic[1:0] inverse_state;
+//inverse_state = 0 : normal
+//inverse_state = 1 : parabora trajectory
+//inverse_state = 2 : inversed
 always_ff @(posedge clk)begin
 	/*if(rst)begin
 		//pixel_out <= 0;
@@ -54,19 +58,66 @@ always_ff @(posedge clk)begin
                 	endcase
 			is_hit <= 0;
 			hit_player_buffer <= 0;
+			inverse_state <= 0;
         	end else if(old_valid_in && valid_in)begin
                 	if(hcount_in == 0 && vcount_in == 0)begin
                         	case(direction_in)
-                                	2'b00:begin
-                                        	y <= y + 4;
-						if(rotate_in == 2'b00 && y >= 288 && y <= 320 && ~is_hit)begin
+					2'b00:begin
+						if(inverse_state == 0)begin
+							y <= y + 4;
+							if (y >= 274 && inversed_in == 1)
+								inverse_state <= 1;
+							if(rotate_in == 2'b00 && y >= 288 && y <= 320 && ~is_hit)begin
+                                                        	is_hit <= 1;
+                                                	end
+                                                	else if(y >= 384 && ~is_hit)begin
+                                                        	is_hit <= 1;
+                                                        	hit_player_buffer <= 1;
+                                                        //hit_player <= 1;
+                                                	end
+						end
+						else if(inverse_state == 1)begin
+							y <= y + 8;
+							if(x <= 511)begin
+								inverse_state <= 2;
+							end else begin
+								if(y <= 384)begin
+                                                                	x <= 607 - ((384-y) >> 4)*((384-y) >> 3);
+                                                        	end
+                                                        	else if(y > 384)begin
+                                                                	x <= 607 - ((y-384) >> 4)*((y-384) >> 3);
+                                                        	end
+							end
+							/*if(y <= 384)begin
+								x <= 607 - ((384-y) >> 4)*((384-y) >> 3);
+							end
+							else if(y > 384)begin
+								x <= 607 - ((y-384) >> 4)*((y-384) >> 3);
+
+							end
+							if(y >= 470 || x <= 512)begin
+								inverse_state <= 2;
+							end*/
+						end
+						else if(inverse_state == 2)begin
+							y <= y - 4;
+							if(rotate_in == 2'b01 && y <= 440 && y >= 432 && ~is_hit)begin
+                                                        	is_hit <= 1;
+                                                	end
+                                                	else if(y <= 384 && ~is_hit)begin
+                                                        	is_hit <= 1;
+                                                        	hit_player_buffer <= 1;
+                                                	end
+						end
+
+						/*if(rotate_in == 2'b00 && y >= 288 && y <= 320 && ~is_hit)begin
 							is_hit <= 1;
 						end
 						else if(y >= 384 && ~is_hit)begin
 							is_hit <= 1;
 							hit_player_buffer <= 1;
 							//hit_player <= 1;
-						end
+						end*/
                                	 	end
                                 	2'b01:begin
                                         	y <= y - 4;
