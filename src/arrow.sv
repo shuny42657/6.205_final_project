@@ -110,28 +110,52 @@ always_ff @(posedge clk)begin
                                                 	end
 						end
 
-						/*if(rotate_in == 2'b00 && y >= 288 && y <= 320 && ~is_hit)begin
-							is_hit <= 1;
-						end
-						else if(y >= 384 && ~is_hit)begin
-							is_hit <= 1;
-							hit_player_buffer <= 1;
-							//hit_player <= 1;
-						end*/
                                	 	end
                                 	2'b01:begin
                                         	y <= y - 4;
-						if(rotate_in == 2'b01 && y <= 440 && y <= 472 && ~is_hit)begin
-							is_hit <= 1;
+						if(inverse_state == 0)begin
+							y <= y - 4;
+							if(y <= 494 && inversed_in == 1)begin
+								inverse_state <= 1;
+							end
+							if(rotate_in == 2'b01 && y <= 440 && y >= 432 && ~is_hit)begin
+                                                                is_hit <= 1;
+                                                        end
+                                                        else if(y <= 384 && ~is_hit)begin
+                                                                is_hit <= 1;
+                                                                hit_player_buffer <= 1;
+                                                        end
 						end
-						else if(y <= 384 && ~is_hit)begin
-							is_hit <= 1;
-							hit_player_buffer <= 1;
+						else if(inverse_state == 1)begin
+							y <= y - 8;
+							if(x >= 513)begin
+								inverse_state <= 2;
+							end
+							else begin
+								if(y <= 384)begin
+                                                                        x <= 417 + ((384-y) >> 4)*((384-y) >> 3);
+                                                                end
+                                                                else if(y > 384)begin
+                                                                        x <= 417 + ((y-384) >> 4)*((y-384) >> 3);
+                                                                end
+							end
+
+						end
+						else if(inverse_state == 2)begin
+							y <= y + 4;
+							if(rotate_in == 2'b01 && y >= 288 && y <= 320 && ~is_hit)begin
+                                                                is_hit <= 1;
+                                                        end
+                                                        else if(y >= 384 && ~is_hit)begin
+                                                                is_hit <= 1;
+                                                                hit_player_buffer <= 1;
+                                                        //hit_player <= 1;
+                                                        end
 						end
                                 	end
                                 	2'b10:begin
                                         	x <= x + 4;
-						if(rotate_in == 2'b10 && x >= 448 && x <= 480 && ~is_hit)begin
+						if(rotate_in == 2'b11 && x >= 448 && x <= 480 && ~is_hit)begin
 							is_hit <= 1;
 						end
 						if(x >= 512 && ~is_hit)begin
@@ -141,7 +165,7 @@ always_ff @(posedge clk)begin
                                 	end
                                 	2'b11:begin
                                         	x <= x - 4;
-						if(rotate_in == 2'b11 && x <= 568 && x >= 536 && ~is_hit)begin
+						if(rotate_in == 2'b10 && x <= 568 && x >= 536 && ~is_hit)begin
 							is_hit <= 1;
 						end
 						else if(x <= 512 && ~is_hit)begin
