@@ -80,9 +80,12 @@ block_sprite #(8,160,432,304,12'hFFF) frame_left(.is_fixed(1),.x_in(0),.hcount_i
 block_sprite #(8,160,584,304,12'hFFF) frame_right(.is_fixed(1),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.in_sprite(frame_right_out),.pixel_out(frame_right_pixel));
 block_sprite #(160,8,432,456,12'hFFF) frame_bottom(.is_fixed(1),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.in_sprite(frame_bottom_out),.pixel_out(frame_bottom_pixel));
 
+/*logic[11:0] undyne_pixel_out;
+logic undyne_out;
+block_sprite #(128,256,512,128,12'hFFF) undyne(.is_fixed(1),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.in_sprite(undyne_out),.pixel_out(undyne_pixel_out));*/
 logic[11:0] green_heart_pixel_out;
 logic green_heart_valid_out;
-image_sprite #(64,64) green_heart(.pixel_clk_in(clk),.rst_in(rst),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.pixel_out(green_heart_pixel_out),.in_sprite(green_heart_valid_out));
+image_sprite #(64,64,"green_heart.mem","green_heart_palette.mem") green_heart(.pixel_clk_in(clk),.rst_in(rst),.x_in(480),.hcount_in(hcount_in),.y_in(352),.vcount_in(vcount_in),.pixel_out(green_heart_pixel_out),.in_sprite(green_heart_valid_out));
 
 always_comb begin
 	if(busy_out_buffer)begin
