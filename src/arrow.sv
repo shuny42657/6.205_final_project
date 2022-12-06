@@ -11,6 +11,7 @@ module arrow #(parameter WIDTH = 8,HEIGHT = 32)(
 	input wire[1:0] direction_in,
 	input wire inversed_in,
 	input wire[1:0] rotate_in,
+	input wire next_in,
 
 	output logic[11:0] pixel_out,
 	output logic valid_out,
@@ -22,14 +23,17 @@ module arrow #(parameter WIDTH = 8,HEIGHT = 32)(
 logic[10:0] x;
 logic[9:0] y;
 logic old_valid_in;
+logic in_sprite_buffer;
 logic valid_out_buffer;
 logic is_hit;
 logic hit_player_buffer;
 logic old_hit_player_buffer;
 logic[1:0] inverse_state;
+logic[11:0] pixel_out_buffer;
 //inverse_state = 0 : normal
 //inverse_state = 1 : parabora trajectory
 //inverse_state = 2 : inversed
+arrow_sprite #(12'hF00,12'hFFF) arrow_color (.x_in(x),.hcount_in(hcount_in),.y_in(y),.vcount_in(vcount_in),.rotate_in(rotate_in),.next_in(next_in),.pixel_out(pixel_out_buffer),.in_sprite(in_sprite_buffer));
 always_ff @(posedge clk)begin
 	/*if(rst)begin
 		//pixel_out <= 0;
@@ -186,14 +190,14 @@ always_ff @(posedge clk)begin
 	if(hit_player_buffer)
 		hit_player_buffer <= 0;
 end
-assign valid_out = (valid_in && ~is_hit) ? ((hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT)) : 0;
+assign valid_out = (valid_in && ~is_hit) ? /*((hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT))*/in_sprite_buffer : 0;
 assign hit_player = hit_player_buffer;
 /*always_comb begin
 	valid_out_buffer = (hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT);
 end*/
 //assign valid_out = (hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT);
 //assign valid_out = valid_out_buffer;
-assign pixel_out = valid_out ? 12'hF00 : 0;
+assign pixel_out = valid_out ? pixel_out_buffer : 0;
 endmodule
 `default_nettype wire
 

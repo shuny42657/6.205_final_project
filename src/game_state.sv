@@ -29,7 +29,13 @@ logic state_rst;
 logic damage_out;
 //assign state_out = 4'b1000;
 assign turn_out = 4'b0000;
-assign state_rst = round_rst || rst; 
+assign state_rst = round_rst || rst;
+
+logic[11:0] undyne_pixel_out;
+logic undyne_out;
+logic[10:0] undyne_x;
+image_sprite #(372,372,"undyne.mem","undyne_palette.mem") undyne(.pixel_clk_in(clk),.rst_in(rst),.x_in(undyne_x),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.pixel_out(undyne_pixel_out),.in_sprite(undyne_out));
+
 enemy en(
 	.clk(clk),
 	.rst(state_rst),
@@ -67,6 +73,7 @@ player pl(
 	.rotate_in(rotate_in),
 	.busy_out(player_busy_out),
 	.finished_out(player_finish_out),
+	.undyne_x(undyne_x),
 	.pixel_out(player_pixel_out)
 );
 logic menu_busy_out;
@@ -86,10 +93,10 @@ health_bar #(480,584,96,32) hb(
 	.pixel_out(health_bar_pixel_out)
 );
 
-logic[11:0] undyne_pixel_out;
+/*logic[11:0] undyne_pixel_out;
 logic undyne_out;
-//block_sprite #(240,372,384,0,12'hFFF) undyne(.is_fixed(1),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.in_sprite(undyne_out),.pixel_out(undyne_pixel_out));
-image_sprite #(372,372,"undyne.mem","undyne_palette.mem") undyne(.pixel_clk_in(clk),.rst_in(rst),.x_in(384),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.pixel_out(undyne_pixel_out),.in_sprite(undyne_out));
+logic[10:0] undyne_x;
+image_sprite #(372,372,"undyne.mem","undyne_palette.mem") undyne(.pixel_clk_in(clk),.rst_in(rst),.x_in(326),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.pixel_out(undyne_pixel_out),.in_sprite(undyne_out));*/
 
 
 always_comb begin

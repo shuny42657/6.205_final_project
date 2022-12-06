@@ -9,6 +9,7 @@ module player(
 	input wire[1:0] rotate_in,
         output logic busy_out,
         output logic finished_out,
+	output logic[10:0] undyne_x,
         output logic[11:0] pixel_out
 );
 
@@ -24,20 +25,26 @@ block_sprite #(8,192,128,384,12'hFFF) frame_left(.is_fixed(1),.x_in(0),.hcount_i
 block_sprite #(8,192,888,384,12'hFFF) frame_right(.is_fixed(1),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.in_sprite(frame_right_out),.pixel_out(frame_right_pixel));
 block_sprite #(768,8,128,568,12'hFFF) frame_bottom(.is_fixed(1),.x_in(0),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.in_sprite(frame_bottom_out),.pixel_out(frame_bottom_pixel));*/
 logic[10:0] top_x,bottom_x,left_x,right_x,top_width,bottom_width,left_width,right_width;
-logic[9:0] top_y,botton_y,left_y,right_y,top_height,bottom_height,left_height,right_height;
+logic[9:0] top_y,bottom_y,left_y,right_y,top_height,bottom_height,left_height,right_height;
 
-frame_sprite #(12'hFFF) frame_top(.x_in(top_x),.hcount_in(hcount_in),width_in(top_width),.y_in(top_y),.vcount_in(vcount_in),.height_in(top_height),.pixel_out(frame_top_pixel),.in_sprite(frame_top_out));
-frame_sprite #(12'hFFF) frame_left(.x_in(left_x),.hcount_in(hcount_in),width_in(left_width),.y_in(left_y),.vcount_in(vcount_in),.height_in(left_height),.pixel_out(frame_left_pixel),.in_sprite(frame_left_out));
-frame_sprite #(12'hFFF) frame_right(.x_in(right_x),.hcount_in(hcount_in),width_in(right_width),.y_in(right_y),.vcount_in(vcount_in),.height_in(right_height),.pixel_out(frame_right_pixel),.in_sprite(frame_right_out));
-frame_sprite #(12'hFFF) frame_bottom(.x_in(bottom_x),.hcount_in(hcount_in),width_in(bottom_width),.y_in(bottom_y),.vcount_in(vcount_in),.height_in(bottom_height),.pixel_out(frame_bottom_pixel),.in_sprite(frame_bottom_out));
+frame_sprite #(12'hFFF) frame_top(.x_in(top_x),.hcount_in(hcount_in),.width_in(top_width),.y_in(top_y),.vcount_in(vcount_in),.height_in(top_height),.pixel_out(frame_top_pixel),.in_sprite(frame_top_out));
+frame_sprite #(12'hFFF) frame_left(.x_in(left_x),.hcount_in(hcount_in),.width_in(left_width),.y_in(left_y),.vcount_in(vcount_in),.height_in(left_height),.pixel_out(frame_left_pixel),.in_sprite(frame_left_out));
+frame_sprite #(12'hFFF) frame_right(.x_in(right_x),.hcount_in(hcount_in),.width_in(right_width),.y_in(right_y),.vcount_in(vcount_in),.height_in(right_height),.pixel_out(frame_right_pixel),.in_sprite(frame_right_out));
+frame_sprite #(12'hFFF) frame_bottom(.x_in(bottom_x),.hcount_in(hcount_in),.width_in(bottom_width),.y_in(bottom_y),.vcount_in(vcount_in),.height_in(bottom_height),.pixel_out(frame_bottom_pixel),.in_sprite(frame_bottom_out));
 attack_bar_sprite #(8,160) attack_bar(.color_in(attack_bar_color),.x_in(attack_bar_x),.hcount_in(hcount_in),.y_in(attack_bar_y),.vcount_in(vcount_in),.in_sprite(attack_bar_out),.pixel_out(attack_bar_pixel));
 logic [10:0] attack_bar_x;
 logic [9:0] attack_bar_y;
+
 
 logic attack_board_out;
 logic[11:0] attack_board_pixel;
 image_sprite #(750,172,"attack_board.mem","attack_board_palette.mem") attack_board(.pixel_clk_in(clk),.rst_in(rst),.x_in(130),.hcount_in(hcount_in),.y_in(390),.vcount_in(vcount_in),.pixel_out(attack_board_pixel),.in_sprite(attack_board_out));
 
+
+
+logic[10:0] oscillate_x;
+logic[3:0] oscillate_pos;
+//image_sprite #(372,372,"undyne.mem","undyne_palette.mem") undyne(.pixel_clk_in(clk),.rst_in(rst),.x_in(undyne_x),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.pixel_out(undyne_pixel_out),.in_sprite(undyne_out));
 
 logic[11:0] enemy_health_bar_out;
 logic[11:0] enemy_health_bar_border_in;
@@ -65,6 +72,7 @@ always_ff @(posedge clk)begin
                 old_state_in = 4'b1010;
 		enemy_health_bar_border_in <= 192;
 		attack_bar_color <= 12'hFFF;
+		frame_moving <= 0;
 		top_x <= 128;
 		top_y <= 384;
 		top_width <= 768;
@@ -81,6 +89,7 @@ always_ff @(posedge clk)begin
 		bottom_y <= 568;
 		bottom_width <= 768;
 		bottom_height <= 8;
+		undyne_x <= 326;
         end
         else begin
                 if(old_state_in != state_in && state_in == 4'b0001)begin
@@ -94,6 +103,7 @@ always_ff @(posedge clk)begin
 			round_damage <= 24;
 			attack_bar_color <= 12'hFFF;
 			flash_count <= 0;
+			frame_moving <= 0;
 			top_x <= 128;
                 	top_y <= 384;
                 	top_width <= 768;
@@ -104,12 +114,14 @@ always_ff @(posedge clk)begin
                 	left_height <= 192;
                 	right_x <= 888;
                 	right_y <= 384;
-                	right_width <= 192;
-                	right_height <= 8;
+                	right_width <= 8;
+                	right_height <= 192;
                 	bottom_x <= 128;
                 	bottom_y <= 568;
                 	bottom_width <= 768;
                 	bottom_height <= 8;
+			undyne_x <= 326;
+			oscillate_x <= 20;
                 end
                 if(busy_out_buffer == 1)begin
 			if(rotate_in == 2'b00 && ~swipe_set)
@@ -128,16 +140,32 @@ always_ff @(posedge clk)begin
 			end
 
 			if(attack_bar_x >= 768)begin
-				busy_out_buffer <= 0;
-				finished_out <= 1;
+				/*busy_out_buffer <= 0;
+				finished_out <= 1;*/
+			        bar_stopped <= 1;
 			end
 			
 			if(bar_stopped)begin
 				if(hcount_in == 0 && vcount_in == 0 && round_damage > 0)begin
+					if(oscillate_x > 0)begin
+						//undyne_x <= oscillate_pos ? 326 + oscillate_x : 326 - oscillate_x;
+						//oscillate_x <= oscillate_x - 2;
+						//oscillate_pos <= ~oscillate_pos;
+						oscillate_pos <= oscillate_pos + 1;
+						if(oscillate_pos[2:0] == 3'b000)begin
+							oscillate_x <= oscillate_x - 2;
+							undyne_x <= 326 + oscillate_x;
+						end
+						if(oscillate_pos[2:0] == 3'b111)begin
+							oscillate_x <= oscillate_x - 2;
+							undyne_x <= 326 - oscillate_x;
+						end
+					end
 					round_damage <= round_damage - 1;
 					enemy_health_bar_border_in <= enemy_health_bar_border_in - 1;
 				end
 			        else if(round_damage == 0)begin
+					undyne_x <= 326;
 					timing_count <= timing_count + 1;
 					if(hcount_in == 0 && vcount_in  == 0)begin
 						flash_count <= flash_count + 1;
@@ -147,6 +175,7 @@ always_ff @(posedge clk)begin
 						end
 					end
 				        if(timing_count == 10*6500000)begin
+						//undyne_x <= 326;
 						frame_moving <= 1;
 						bar_stopped <= 0;
 					        timing_count <= 0;
@@ -159,13 +188,13 @@ always_ff @(posedge clk)begin
 
 			if(frame_moving == 1)begin
 				if(hcount_in == 0 && vcount_in == 0)begin
-					if(top_width = 160)
+					if(top_width == 160)
 						frame_moving <= 2;
 					else begin
 						top_x <= top_x + 4;
                                         	bottom_x <= bottom_x + 4;
-                                        	top_width <= 8;
-                                        	bottom_width <= 8;
+                                        	top_width <= top_width - 8;
+                                        	bottom_width <= top_width - 8;
 						left_x <= left_x + 4;
 						right_x <= right_x - 4;
 					end
@@ -186,6 +215,9 @@ always_ff @(posedge clk)begin
 					end
 				end
 			end
+		end
+		else begin
+			undyne_x <= 326;
 		end
                 if(finished_out == 1 && state_in != 4'b0001)
 			finished_out <= 0;
