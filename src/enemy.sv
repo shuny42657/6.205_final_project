@@ -13,6 +13,7 @@ module enemy(
 	output logic busy_out, //busy while this is high
 	output logic finished_out, //asserted high for one clk cycle when the module exits busy state
 	output logic damage_out,
+	output logic game_over_out,
 	output logic[11:0] pixel_out //pixel output
 );
 logic busy_out_buffer;
@@ -95,6 +96,7 @@ block_sprite #(128,256,512,128,12'hFFF) undyne(.is_fixed(1),.x_in(0),.hcount_in(
 logic[11:0] green_heart_pixel_out;
 logic green_heart_valid_out;
 //image_sprite #(64,64,"green_heart.mem","green_heart_palette.mem") green_heart(.pixel_clk_in(clk),.rst_in(rst),.x_in(480),.hcount_in(hcount_in),.y_in(352),.vcount_in(vcount_in),.pixel_out(green_heart_pixel_out),.in_sprite(green_heart_valid_out));
+green_heart_sprite #(488,368,12'h0F0) (.hcount_in(hcount_in),.vcount_in(vcount_in),.divided_in(0),.pixel_out(green_heart_pixel_out),.in_sprite(green_heart_valid_out));
 logic frame_moving;
 always_comb begin
 	if(busy_out_buffer)begin
@@ -107,7 +109,7 @@ always_comb begin
         	if(frame_left_out)
                 	pixel_out = frame_left_pixel;*/
 		if(frame_moving == 0)begin
-		pixel_out = frame_bottom_pixel + frame_top_pixel + frame_left_pixel + frame_right_pixel + arrow_out_1 + arrow_out_2 + arrow_out_3 + arrow_out_4 + arrow_out_5 + arrow_out_6 + arrow_out_7 + arrow_out_8 +arrow_out_9 + arrow_out_10 + arrow_out_11 + arrow_out_12 + arrow_out_13 + arrow_out_14 + arrow_out_15 + arrow_out_16 + arrow_out_17 + arrow_out_18 + arrow_out_19 + arrow_out_20 + arrow_out_21 + arrow_out_22 + arrow_out_23 + arrow_out_24 + shield_out /*+ green_heart_pixel_out*/;
+		pixel_out = frame_bottom_pixel + frame_top_pixel + frame_left_pixel + frame_right_pixel + arrow_out_1 + arrow_out_2 + arrow_out_3 + arrow_out_4 + arrow_out_5 + arrow_out_6 + arrow_out_7 + arrow_out_8 +arrow_out_9 + arrow_out_10 + arrow_out_11 + arrow_out_12 + arrow_out_13 + arrow_out_14 + arrow_out_15 + arrow_out_16 + arrow_out_17 + arrow_out_18 + arrow_out_19 + arrow_out_20 + arrow_out_21 + arrow_out_22 + arrow_out_23 + arrow_out_24 + shield_out + green_heart_pixel_out;
 		//pixel_out = 1;
 	end
 	else begin
@@ -129,7 +131,7 @@ always_ff @(posedge clk)begin
 	if(rst)begin
 		busy_out_buffer <= 0;
 		finished_out <= 0;
-		finished_out <= 0;
+		game_over_out <= 0;
 		timing_count <= 0;
 		old_state_in <= 4'b1010;
 		arrow_count_first <= 0;
@@ -203,6 +205,7 @@ always_ff @(posedge clk)begin
 			if(pattern_ended && arrow_valid_out == 0 && frame_moving == 0)begin
 				finished_out <= 1;
 				busy_out_buffer <= 0;
+				game_over_out <= 1;
 			        //frame_moving <= 1;
 			end
 			if(hit_player_out != 0)begin
@@ -266,6 +269,7 @@ always_ff @(posedge clk)begin
 		end*/
 		if(finished_out == 1)begin
 			finished_out <= 0;
+			game_over_out <= 0;
 		end
 	end
 	//output the pixel value from 24 arrows, heart, etc. 

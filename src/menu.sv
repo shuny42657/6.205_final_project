@@ -58,7 +58,7 @@ always_ff @(posedge clk)begin
 			busy_out_buffer <= 1;
 			timing_count <= 0;
 		end
-		if(busy_out_buffer == 1)begin
+		if(busy_out_buffer ==1)begin
 			timing_count <= timing_count + 1;
 			if(timing_count == 5*6500000)begin
 				timing_count <= 0;
