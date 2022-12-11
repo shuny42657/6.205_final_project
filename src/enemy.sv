@@ -27,7 +27,7 @@ logic[9:0] speeds[71:0];
 logic[9:0] directions[47:0];
 logic[9:0] inverseds[23:0];
 //patterns
-pattern #(24,/*72'h249_249_249_249_249_249*/72'b000001001001001001001001001001001001001001001001001001001001001001001001,72'h249_249_249_249_249_249,48'h0,24'h0,0) pattern1(.turn_in(turn_in),.valid_out(pattern_valid_1),.arrows(arrow_max),.timing(timings[0]),.speed(speeds[0]),.direction(directions[0]),.inversed(inverseds[0]));
+pattern #(24,/*72'h249_249_249_249_249_249*/72'b000011011011011011011011011011011011011011011011011011011011011011011011,72'h249_249_249_249_249_249,48'h0,24'h0,0) pattern1(.turn_in(turn_in),.valid_out(pattern_valid_1),.arrows(arrow_max),.timing(timings[0]),.speed(speeds[0]),.direction(directions[0]),.inversed(inverseds[0]));
 logic pattern_valid_1;
 //assign timings[0] = 72'h249_249_249_249_249_249;
 logic timing_1;

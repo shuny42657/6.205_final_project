@@ -17,9 +17,9 @@ logic is_left;
 
 always_comb begin
         if(hcount_in >= POS_X&&hcount_in<= POS_X + border_in && vcount_in >= POS_Y && vcount_in <= POS_Y + HEIGHT)
-                pixel_out = valid_in ? 12'hFF0 : 0;
+                pixel_out = valid_in ? 12'h0F0 : 0;
         else if(hcount_in > POS_X + border_in && hcount_in <= POS_X+WIDTH&&vcount_in>=POS_Y&&vcount_in<=POS_Y+HEIGHT)
-                pixel_out = valid_in ? 12'hF00 : 0;
+                pixel_out = valid_in ? 12'hF33 : 0;
         else
                 pixel_out = 12'h0;
 end

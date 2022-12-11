@@ -41,8 +41,8 @@ image_sprite #(372,372,"undyne.mem","undyne_palette.mem") undyne(.pixel_clk_in(c
 logic[11:0] hp_pixel_out[1:0];
 logic[1:0] hp_out;
 
-fonts #(424,584) H(.hcount_in(hcount_in),.vcount_in(vcount_in),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(2),.pixel_out(hp_pixel_out[0]),.in_sprite(hp_out[0]));
-fonts #(452,584) P(.hcount_in(hcount_in),.vcount_in(vcount_in),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(2),.pixel_out(hp_pixel_out[1]),.in_sprite(hp_out[1]));
+fonts #(408,588) H(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(hp_pixel_out[0]),.in_sprite(hp_out[0]));
+fonts #(436,588) P(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01001),.color_in(12'hFFF),.scale_in(1),.pixel_out(hp_pixel_out[1]),.in_sprite(hp_out[1]));
 
 enemy en(
 	.clk(clk),
@@ -105,7 +105,7 @@ logic game_over_finish_out,old_game_over_finish_out;
 	.pixel_out(game_over_pixel_out)
 );*/
 logic[11:0] health_bar_pixel_out;
-health_bar #(480,584,96,32) hb(
+health_bar #(480,584,112,32) hb(
 	.clk(clk),
 	.rst(rst),
 	.hcount_in(hcount_in),
@@ -130,14 +130,14 @@ logic[3:0] color_r_in,color_g_in,color_b_in;
 logic[11:0] font_color_in;
 logic[7:0] fade_interval;
 green_heart_sprite #(496,368,12'h0F0) green_heart(.hcount_in(hcount_in),.vcount_in(vcount_in),.divided_in(divided_in),.pixel_out(green_heart_pixel_out),.in_sprite(green_heart_out));
-fonts #(96,128) G(.hcount_in(hcount_in),.vcount_in(vcount_in),.letter_in(5'b00001),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[0]),.in_sprite(font_out[0]));
-fonts #(304,128) A(.hcount_in(hcount_in),.vcount_in(vcount_in),.letter_in(5'b00010),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[1]),.in_sprite(font_out[1]));
-fonts #(512,128) M(.hcount_in(hcount_in),.vcount_in(vcount_in),.letter_in(5'b00011),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[2]),.in_sprite(font_out[2]));
-fonts #(720,128) E(.hcount_in(hcount_in),.vcount_in(vcount_in),.letter_in(5'b00100),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[3]),.in_sprite(font_out[3]));
-fonts #(112,336) O(.hcount_in(hcount_in),.vcount_in(vcount_in),.letter_in(5'b00101),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[4]),.in_sprite(font_out[4]));
-fonts #(320,336) V(.hcount_in(hcount_in),.vcount_in(vcount_in),.letter_in(5'b00110),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[5]),.in_sprite(font_out[5]));
-fonts #(528,336) E_two(.hcount_in(hcount_in),.vcount_in(vcount_in),.letter_in(5'b00100),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[6]),.in_sprite(font_out[6]));
-fonts #(736,336) R(.hcount_in(hcount_in),.vcount_in(vcount_in),.letter_in(5'b00111),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[7]),.in_sprite(font_out[7]));
+fonts #(96,128) G(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00001),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[0]),.in_sprite(font_out[0]));
+fonts #(304,128) A(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00010),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[1]),.in_sprite(font_out[1]));
+fonts #(512,128) M(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00011),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[2]),.in_sprite(font_out[2]));
+fonts #(720,128) E(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00100),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[3]),.in_sprite(font_out[3]));
+fonts #(112,336) O(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00101),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[4]),.in_sprite(font_out[4]));
+fonts #(320,336) V(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00110),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[5]),.in_sprite(font_out[5]));
+fonts #(528,336) E_two(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00100),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[6]),.in_sprite(font_out[6]));
+fonts #(736,336) R(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00111),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[7]),.in_sprite(font_out[7]));
 
 
 heart_fall_apart #(12'h0F0) heart_parts(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(fall_apart_valid_in),.in_sprite(fall_apart_out),.pixel_out(fall_apart_pixel_out));
@@ -150,7 +150,10 @@ always_comb begin
 			pixel_out = menu_pixel_out + health_bar_pixel_out + undyne_pixel_out + hp_pixel_out[0] + hp_pixel_out[1];
 		end
 		4'b0001:begin
-			pixel_out = player_pixel_out + health_bar_pixel_out + undyne_pixel_out + hp_pixel_out[0] + hp_pixel_out[1];
+			if(player_pixel_out != 0)
+				pixel_out = player_pixel_out + health_bar_pixel_out + hp_pixel_out[0] + hp_pixel_out[1];
+			else
+				pixel_out = player_pixel_out + health_bar_pixel_out + undyne_pixel_out + hp_pixel_out[0] + hp_pixel_out[1];
 		end
 		4'b1111:begin
 			if(animation_phase == 1 || animation_phase == 0)begin
