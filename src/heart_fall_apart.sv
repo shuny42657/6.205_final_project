@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 `default_nettype none
-module heart_fall_apart #(parameter COLOR = 12'h0F0)(
+module heart_fall_apart #(parameter COLOR = 12'hF00)(
 	input wire clk,
 	input wire rst,
 	input wire[10:0] hcount_in,
@@ -11,20 +11,27 @@ module heart_fall_apart #(parameter COLOR = 12'h0F0)(
 	output logic[11:0] pixel_out
 );
 
-logic[10:0] part_1_x,part_2_x,part_3_x,part_4_x,part_5_x,part_6_x;
-logic[9:0] part_1_y,part_2_y,part_3_y,part_4_y,part_5_y,part_6_y;
+logic[11:0] part_1_x,part_2_x,part_3_x,part_4_x,part_5_x,part_6_x;
+logic[10:0] part_1_y,part_2_y,part_3_y,part_4_y,part_5_y,part_6_y;
+logic[5:0] in_sprite_buffer_buffer;
 logic[5:0] in_sprite_buffer;
 logic[2:0] mirror_switch_interval;
 logic mirror_switch;
 
-heart_fall_apart_sprite part_1(.x_in(part_1_x),.hcount_in(hcount_in),.y_in(part_1_y),.vcount_in(vcount_in),.mirror_in(mirror_switch),.in_sprite(in_sprite_buffer[0]));
-heart_fall_apart_sprite part_2(.x_in(part_2_x),.hcount_in(hcount_in),.y_in(part_2_y),.vcount_in(vcount_in),.mirror_in(mirror_switch),.in_sprite(in_sprite_buffer[1]));
-heart_fall_apart_sprite part_3(.x_in(part_3_x),.hcount_in(hcount_in),.y_in(part_3_y),.vcount_in(vcount_in),.mirror_in(mirror_switch),.in_sprite(in_sprite_buffer[2]));
-heart_fall_apart_sprite part_4(.x_in(part_4_x),.hcount_in(hcount_in),.y_in(part_4_y),.vcount_in(vcount_in),.mirror_in(mirror_switch),.in_sprite(in_sprite_buffer[3]));
-heart_fall_apart_sprite part_5(.x_in(part_5_x),.hcount_in(hcount_in),.y_in(part_5_y),.vcount_in(vcount_in),.mirror_in(mirror_switch),.in_sprite(in_sprite_buffer[4]));
-heart_fall_apart_sprite part_6(.x_in(part_6_x),.hcount_in(hcount_in),.y_in(part_6_y),.vcount_in(vcount_in),.mirror_in(mirror_switch),.in_sprite(in_sprite_buffer[5]));
+heart_fall_apart_sprite part_1(.x_in(part_1_x),.hcount_in(hcount_in),.y_in(part_1_y),.vcount_in(vcount_in),.mirror_in(mirror_switch),.in_sprite(in_sprite_buffer_buffer[0]));
+heart_fall_apart_sprite part_2(.x_in(part_2_x),.hcount_in(hcount_in),.y_in(part_2_y),.vcount_in(vcount_in),.mirror_in(mirror_switch),.in_sprite(in_sprite_buffer_buffer[1]));
+heart_fall_apart_sprite part_3(.x_in(part_3_x),.hcount_in(hcount_in),.y_in(part_3_y),.vcount_in(vcount_in),.mirror_in(mirror_switch),.in_sprite(in_sprite_buffer_buffer[2]));
+heart_fall_apart_sprite part_4(.x_in(part_4_x),.hcount_in(hcount_in),.y_in(part_4_y),.vcount_in(vcount_in),.mirror_in(mirror_switch),.in_sprite(in_sprite_buffer_buffer[3]));
+heart_fall_apart_sprite part_5(.x_in(part_5_x),.hcount_in(hcount_in),.y_in(part_5_y),.vcount_in(vcount_in),.mirror_in(mirror_switch),.in_sprite(in_sprite_buffer_buffer[4]));
+heart_fall_apart_sprite part_6(.x_in(part_6_x),.hcount_in(hcount_in),.y_in(part_6_y),.vcount_in(vcount_in),.mirror_in(mirror_switch),.in_sprite(in_sprite_buffer_buffer[5]));
 
 always_comb begin
+	in_sprite_buffer[0] = (in_sprite_buffer_buffer[0] && part_1_y > 0);
+	in_sprite_buffer[1] = (in_sprite_buffer_buffer[1] && part_2_y < 767);
+	in_sprite_buffer[2] = (in_sprite_buffer_buffer[2] && part_3_y < 767);
+	in_sprite_buffer[3] = (in_sprite_buffer_buffer[3] && part_4_y < 767);
+	in_sprite_buffer[4] = (in_sprite_buffer_buffer[4] && part_5_y < 767);
+	in_sprite_buffer[5] = (in_sprite_buffer_buffer[5] && part_6_x < 1023);
 	in_sprite = in_sprite_buffer != 0;
 	pixel_out = in_sprite ? COLOR : 0;
 end
@@ -51,18 +58,17 @@ always_ff @(posedge clk)begin
 				if(mirror_switch_interval[1:0] ==2'b0)
 					mirror_switch <= ~mirror_switch;
 					
-
-				part_1_y <= part_1_y - 2;
-				/*part_2_x <= part_2_x - 4;
-				part_2_y <= part_2_y + 4;
+				part_1_y <= part_1_y > 0 ? part_1_y - 4 : 0;
+				part_2_x <= part_2_x - 4;
+				part_2_y <= part_2_y < 770 ? part_2_y + 4 : 770;
 				part_3_x <= part_3_x + 2;
-				part_3_y <= part_3_y + 5;
+				part_3_y <= part_3_y < 770 ? part_3_y + 5 : 770;
 				part_4_x <= part_4_x + 2;
-				part_4_y <= part_4_y + 2;
+				part_4_y <= part_4_y < 770 ? part_4_y + 2 : 770;
 				part_5_x <= part_5_x + 1;
-				part_5_x <= part_5_x + 2;
-				part_6_x <= part_6_x + 4;
-				part_6_y <= part_6_y + 1;*/
+				part_5_y <= part_5_y < 770 ? part_5_y + 2 : 770;
+				part_6_x <= part_6_x < 1030 ? part_6_x + 4 : 1030;
+				part_6_y <= part_6_y + 1;
 
 			end
 		end

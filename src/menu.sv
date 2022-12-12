@@ -7,6 +7,7 @@ module menu(
 	input wire[9:0] vcount_in,
 	input wire[3:0] state_in,
 	input wire[1:0] key_input_in,
+	input wire[10:0] enemy_hp_left_in,
 	input wire decide_in,
 
 	output logic busy_out,
@@ -80,6 +81,11 @@ fonts #(614,440) undyne_g(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(
 logic [11:0] select_heart_pixel_out;
 logic select_heart_out;
 green_heart_sprite #(160,428) select_heart(.hcount_in(hcount_in),.vcount_in(vcount_in),.divided_in(0),.pixel_out(select_heart_pixel_out),.in_sprite(select_heart_out));
+
+
+logic[11:0] menu_enemy_health_bar_out;
+logic[10:0] hp_left_out;
+enemy_health_bar #(670,440,96,16,12'h0F0,12'hF00) menu_enemy_health_bar(.valid_in(1),.hcount_in(hcount_in),.vcount_in(vcount_in),.border_in(enemy_hp_left_in >> 1),.pixel_out(menu_enemy_health_bar_out));
 logic busy_out_buffer;
 logic[3:0] old_state_in;
 logic[1:0] old_key_input_in;
@@ -91,7 +97,7 @@ always_comb begin
 		pixel_out = frame_bottom_pixel + frame_top_pixel + frame_left_pixel + frame_right_pixel + attack_button_out + act_button_out + talk_button_out + mercy_button_out + wind_pixel_out[0] + wind_pixel_out[1] + wind_pixel_out[2] + wind_pixel_out[3] + wind_pixel_out[4] + wind_pixel_out[5] + wind_pixel_out[6] + wind_pixel_out[7] + wind_pixel_out[8] + wind_pixel_out[9] + wind_pixel_out[10] + wind_pixel_out[11] + wind_pixel_out[12] + wind_pixel_out[13] + wind_pixel_out[14] + wind_pixel_out[15];
 
 	end else if(busy_out_buffer == 1 && menu_phase == 1)begin
-		pixel_out = frame_bottom_pixel + frame_top_pixel + frame_left_pixel + frame_right_pixel + attack_button_out + act_button_out + talk_button_out + mercy_button_out + undyne_text_pixel_out[0] + undyne_text_pixel_out[1] + undyne_text_pixel_out[2] + undyne_text_pixel_out[3] + undyne_text_pixel_out[4] + undyne_text_pixel_out[5] + undyne_text_pixel_out[6] + undyne_text_pixel_out[7] + undyne_text_pixel_out[8] + undyne_text_pixel_out[9] + undyne_text_pixel_out[10] + undyne_text_pixel_out[11] + undyne_text_pixel_out[12] + undyne_text_pixel_out[13] + undyne_text_pixel_out[14] + undyne_text_pixel_out[15] + select_heart_pixel_out;
+		pixel_out = frame_bottom_pixel + frame_top_pixel + frame_left_pixel + frame_right_pixel + attack_button_out + act_button_out + talk_button_out + mercy_button_out + undyne_text_pixel_out[0] + undyne_text_pixel_out[1] + undyne_text_pixel_out[2] + undyne_text_pixel_out[3] + undyne_text_pixel_out[4] + undyne_text_pixel_out[5] + undyne_text_pixel_out[6] + undyne_text_pixel_out[7] + undyne_text_pixel_out[8] + undyne_text_pixel_out[9] + undyne_text_pixel_out[10] + undyne_text_pixel_out[11] + undyne_text_pixel_out[12] + undyne_text_pixel_out[13] + undyne_text_pixel_out[14] + undyne_text_pixel_out[15] + select_heart_pixel_out + menu_enemy_health_bar_out;
 	end
 	else
 	pixel_out = frame_bottom_pixel;
@@ -131,7 +137,7 @@ always_ff @(posedge clk)begin
 
                         	if(hcount_in == 0 && vcount_in == 0)begin
                                 	timing_count <= timing_count + 1;
-                                	if(timing_count == 5)begin
+                                	if(timing_count == 2)begin
                                         	wind_valid_in <= {wind_valid_in[14:0],1'b1};
                                         	timing_count <= 0;
 

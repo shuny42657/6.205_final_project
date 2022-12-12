@@ -10,6 +10,7 @@ module player(
         output logic busy_out,
         output logic finished_out,
 	output logic[10:0] undyne_x,
+	output logic[10:0] enemy_hp_left_out,
         output logic[11:0] pixel_out
 );
 
@@ -48,7 +49,9 @@ logic[3:0] oscillate_pos;
 
 logic[11:0] enemy_health_bar_out;
 logic[11:0] enemy_health_bar_border_in;
-enemy_health_bar #(416,288,192,16) enemy_health(.clk(clk),.rst(rst),.valid_in(bar_stopped),.hcount_in(hcount_in),.vcount_in(vcount_in),.border_in(enemy_health_bar_border_in),.pixel_out(enemy_health_bar_out));
+assign enemy_hp_left_out = enemy_health_bar_border_in;
+enemy_health_bar #(416,288,192,16,12'h0F0,12'h333) enemy_health(.valid_in(bar_stopped),.hcount_in(hcount_in),.vcount_in(vcount_in),.border_in(enemy_health_bar_border_in),.pixel_out(enemy_health_bar_out));
+
 logic busy_out_buffer;
 logic[3:0] old_state_in;
 logic swipe_set; //set high when rotate_in once becomes 2'b00 (up)
@@ -126,10 +129,15 @@ always_ff @(posedge clk)begin
                 if(busy_out_buffer == 1)begin
 			if(rotate_in == 2'b00 && ~swipe_set)
 				swipe_set <= 1;
-			if(rotate_in == 2'b01 && swipe_set)begin
+			if(rotate_in == 2'b01 && swipe_set && bar_stopped == 0)begin
 				//busy_out_buffer <= 0;
 				//finished_out <= 1;
 				bar_stopped <= 1;
+				if(attack_bar_x > 512)
+                                        round_damage <= (400 - (attack_bar_x - 512)) >> 3;
+                                else if(attack_bar_x <= 512)
+                                        round_damage <= (400 - (512 - attack_bar_x)) >> 3;
+
 			end
 			if(hcount_in == 0 && vcount_in == 0)begin
 				attack_bar_x <= bar_stopped ? attack_bar_x : attack_bar_x + 8;
@@ -143,6 +151,7 @@ always_ff @(posedge clk)begin
 				/*busy_out_buffer <= 0;
 				finished_out <= 1;*/
 			        bar_stopped <= 1;
+				round_damage <= 0;
 			end
 			
 			if(bar_stopped)begin

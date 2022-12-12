@@ -38,6 +38,9 @@ logic undyne_out;
 logic[10:0] undyne_x;
 image_sprite #(372,372,"undyne.mem","undyne_palette.mem") undyne(.pixel_clk_in(clk),.rst_in(rst),.x_in(undyne_x),.hcount_in(hcount_in),.y_in(0),.vcount_in(vcount_in),.pixel_out(undyne_pixel_out),.in_sprite(undyne_out));
 
+logic[10:0] enemy_hp_left_out;
+
+
 logic[11:0] hp_pixel_out[1:0];
 logic[1:0] hp_out;
 
@@ -55,7 +58,6 @@ enemy en(
 	.busy_out(enemy_busy_out),
 	.finished_out(enemy_finish_out),
 	.damage_out(damage_out),
-	.game_over_out(game_over_out),
 	.pixel_out(enemy_pixel_out)
 
 );
@@ -67,6 +69,7 @@ menu mn(
 	.vcount_in(vcount_in),
 	.state_in(state_out),
 	.key_input_in(key_input_in),
+	.enemy_hp_left_in(enemy_hp_left_out),
 	.decide_in(decide_in),
 	.busy_out(menu_busy_out),
 	.finished_out(menu_finish_out),
@@ -83,6 +86,7 @@ player pl(
 	.busy_out(player_busy_out),
 	.finished_out(player_finish_out),
 	.undyne_x(undyne_x),
+	.enemy_hp_left_out(enemy_hp_left_out),
 	.pixel_out(player_pixel_out)
 );
 logic menu_busy_out;
@@ -111,6 +115,7 @@ health_bar #(480,584,112,32) hb(
 	.hcount_in(hcount_in),
 	.vcount_in(vcount_in),
 	.damage_in(damage_out),
+	.game_over_out(game_over_out),
 	.pixel_out(health_bar_pixel_out)
 );
 
@@ -130,21 +135,24 @@ logic[3:0] color_r_in,color_g_in,color_b_in;
 logic[11:0] font_color_in;
 logic[7:0] fade_interval;
 green_heart_sprite #(496,368,12'h0F0) green_heart(.hcount_in(hcount_in),.vcount_in(vcount_in),.divided_in(divided_in),.pixel_out(green_heart_pixel_out),.in_sprite(green_heart_out));
-fonts #(96,128) G(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00001),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[0]),.in_sprite(font_out[0]));
-fonts #(304,128) A(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00010),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[1]),.in_sprite(font_out[1]));
+fonts #(288,128) G(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00001),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[0]),.in_sprite(font_out[0]));
+fonts #(400,128) A(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00010),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[1]),.in_sprite(font_out[1]));
 fonts #(512,128) M(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00011),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[2]),.in_sprite(font_out[2]));
-fonts #(720,128) E(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00100),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[3]),.in_sprite(font_out[3]));
-fonts #(112,336) O(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00101),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[4]),.in_sprite(font_out[4]));
-fonts #(320,336) V(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00110),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[5]),.in_sprite(font_out[5]));
-fonts #(528,336) E_two(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00100),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[6]),.in_sprite(font_out[6]));
-fonts #(736,336) R(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00111),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[7]),.in_sprite(font_out[7]));
+fonts #(672,128) E(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00100),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[3]),.in_sprite(font_out[3]));
+fonts #(304,240) O(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00101),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[4]),.in_sprite(font_out[4]));
+fonts #(416,240) V(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00110),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[5]),.in_sprite(font_out[5]));
+fonts #(528,240) E_two(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00100),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[6]),.in_sprite(font_out[6]));
+fonts #(640,240) R(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b00111),.color_in(font_color_in),.scale_in(3),.pixel_out(game_over_pixel_out[7]),.in_sprite(font_out[7]));
 
 
-heart_fall_apart #(12'h0F0) heart_parts(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(fall_apart_valid_in),.in_sprite(fall_apart_out),.pixel_out(fall_apart_pixel_out));
+heart_fall_apart #(12'hF00) heart_parts(.clk(clk),.rst(rst),.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(fall_apart_valid_in),.in_sprite(fall_apart_out),.pixel_out(fall_apart_pixel_out));
 always_comb begin
 	case(state_out)
 		4'b1000:begin
-			pixel_out = enemy_pixel_out + health_bar_pixel_out + undyne_pixel_out + hp_pixel_out[0] + hp_pixel_out[1];
+			if(enemy_pixel_out != 0)
+				pixel_out = enemy_pixel_out + health_bar_pixel_out + hp_pixel_out[0] + hp_pixel_out[1];
+			else
+				pixel_out = enemy_pixel_out + health_bar_pixel_out + {undyne_pixel_out[11:8]>>1,undyne_pixel_out[7:4]>>1,undyne_pixel_out[3:0]>>1} + hp_pixel_out[0] + hp_pixel_out[1];
 		end
 		4'b0000:begin
 			pixel_out = menu_pixel_out + health_bar_pixel_out + undyne_pixel_out + hp_pixel_out[0] + hp_pixel_out[1];
@@ -175,7 +183,6 @@ always_ff @(posedge clk)begin
 		state_out <= 4'b0000;
 		old_enemy_finish_out <= 0;
 		old_menu_finish_out <= 0;
-		old_player_finish_out <= 0;
 		old_game_over_finish_out <= 0;
 		round_rst <= 0;
 		fall_apart_valid_in <= 0;
@@ -199,27 +206,7 @@ always_ff @(posedge clk)begin
 		color_b_in <= 0;
 	end
 	else begin
-		if(old_game_over_out != game_over_out && game_over_out == 1)begin
-			state_out <= 4'b1111;
-			animation_phase <= 0;
-			timing_count <= 0;	
-			divided_in <= 0;
-		end
-		else begin
-			if(old_enemy_finish_out != enemy_finish_out && enemy_finish_out)begin
-                        	//shift to next state
-                        	//state_out <= 4'b0001;
-                        	round_rst <= 1;
-                	end
-                	if(old_menu_finish_out != menu_finish_out && menu_finish_out)begin
-                        	state_out <= 4'b0001;
-                	end
-                	if(old_player_finish_out && player_finish_out)begin
-                        	state_out <= 4'b1000;
-                	end
-		end
-
-		if(state_out <= 4'b1111)begin
+		if(state_out == 4'b1111)begin
 			if(animation_phase == 0)begin //idling
 				//game_over_pixel_out <= 12'h0F0;
 				timing_count <= timing_count + 1;
@@ -240,14 +227,14 @@ always_ff @(posedge clk)begin
 			else if(animation_phase == 2)begin //heart fall apart
 				fall_apart_valid_in <= 1;
 				timing_count <= timing_count + 1;
-				if(timing_count == 65000000)begin
+				if(timing_count == 65000000*2)begin
 					animation_phase <= 3;
 				end
 			end
 			else if(animation_phase == 3)begin
 				if(hcount_in == 0 && vcount_in == 0)begin
 					fade_interval <= fade_interval + 1;
-					if(fade_interval[5:0] == 6'b11111111)begin
+					if(fade_interval[2:0] == 3'b111)begin
 						if(color_r_in != 4'b1111)begin
                                                 	color_r_in <= color_r_in + 1;
                                                 	color_g_in <= color_g_in + 1;
@@ -257,6 +244,26 @@ always_ff @(posedge clk)begin
 				end
 			end
 		end
+		else if(old_game_over_out != game_over_out && game_over_out == 1)begin
+                        state_out <= 4'b1111;
+                        animation_phase <= 0;
+                        timing_count <= 0;
+                        divided_in <= 0;
+                end
+                else begin
+                        if(old_enemy_finish_out != enemy_finish_out && enemy_finish_out)begin
+                                //shift to next state
+                                //state_out <= 4'b0001;
+                                round_rst <= 1;
+                        end
+                        if(old_menu_finish_out != menu_finish_out && menu_finish_out)begin
+                                state_out <= 4'b0001;
+                        end
+                        if(old_player_finish_out && player_finish_out)begin
+                                state_out <= 4'b1000;
+                        end
+                end
+
 		old_enemy_finish_out <= enemy_finish_out;
 		old_menu_finish_out <= menu_finish_out;
 		old_player_finish_out <= player_finish_out;

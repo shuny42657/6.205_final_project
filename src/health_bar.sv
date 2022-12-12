@@ -7,9 +7,11 @@ module health_bar #(parameter POS_X = 480,parameter POS_Y = 720,parameter WIDTH 
 	input wire[10:0] hcount_in,
 	input wire[9:0] vcount_in,
 	input wire damage_in,
+	output logic game_over_out,
 	output logic[11:0] pixel_out
 );
-logic health_amount;
+logic [5:0]health_amount;
+logic [2:0] health_count;
 logic[10:0] border_x;
 logic in_sprite;
 logic is_left;
@@ -19,23 +21,36 @@ always_ff @(posedge clk)begin
 	//letter_in[1] = 6'b011011;
 	//letter_in[0] = 6'b011100;
 	if(rst)begin
-		health_amount <= 56;
+		health_count <= 0;
+		game_over_out <= 0;
+		health_amount <= 57;
 		tens <= 5;
 		ones <= 6;
 		border_x <= 592; 
 	end
 	else begin
-		if(old_damage_in != damage_in && damage_in && border_x >= 496)begin
+		if(/*health_amount == 1*/health_count == 7)
+			game_over_out <= 1;
+		else if(old_damage_in != damage_in && damage_in == 1 && border_x >= 496)begin
 			//health_amount <= health_amount - 8;
+			health_count <= health_count + 1;
 			border_x <= border_x - 16;
+			if(health_amount > 0)
+				health_amount <= health_amount - 8;
+			else
+				game_over_out <= 1;
 			if(ones < 8)begin
 				ones <= ones + 2;
 				tens <= tens - 1;
 			end else
 				ones <= ones - 8;
 		end
+		/*if(health_amount == 8)
+			game_over_out <= 1;*/
 	end
 	old_damage_in <= damage_in;
+	/*if(game_over_out == 1)
+		game_over_out <= 0;*/
 end
 
 //logic [11:0] letter_in[1:0];
@@ -47,7 +62,7 @@ fonts #(730,588) six(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.l
 fonts #(600,588) tens_(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(tens + 23),.color_in(12'hFFF),.scale_in(1),.pixel_out(health_number_pixel_out[1]),.in_sprite(health_number_out[1]));
 fonts #(630,588) ones_(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(ones + 23),.color_in(12'hFFF),.scale_in(1),.pixel_out(health_number_pixel_out[0]),.in_sprite(health_number_out[0]));
 
-fonts #(670,588) sl(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(6'b100101),.color_in(12'hFFF),.scale_in(1),.pixel_out(health_number_pixel_out[4]),.in_sprite(health_number_out[4]));
+fonts #(666,588) sl(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(6'b100101),.color_in(12'hFFF),.scale_in(1),.pixel_out(health_number_pixel_out[4]),.in_sprite(health_number_out[4]));
 
 //assign border_x = POS_X + health_amount*2;
 always_comb begin
@@ -59,6 +74,8 @@ always_comb begin
 		pixel_out = 12'hFFF;
 	else
 		pixel_out = 12'h0;
+
+
 	/*in_sprite = (hcount_in >= POS_X) && (hcount_in <= POS_X + WIDTH) && (vcount_in >= POS_Y) && (vcount_in <= POS_Y + HEIGHT);
 	if(hcount_in >= border_x)
 		is_left = 0;
@@ -70,6 +87,7 @@ always_comb begin
 		pixel_out = 12'hFF0000;
 	else
 		pixel_out = 12'h0;*/
+
 end
 endmodule
 `default_nettype wire
