@@ -25,7 +25,8 @@ logic[9:0] y;
 logic old_valid_in;
 logic in_sprite_buffer;
 logic valid_out_buffer;
-logic is_hit;
+logic is_hit_once;
+logic is_hit_buffer;
 logic hit_player_buffer;
 logic old_hit_player_buffer;
 logic[1:0] inverse_state;
@@ -33,14 +34,16 @@ logic[11:0] pixel_out_buffer;
 //inverse_state = 0 : normal
 //inverse_state = 1 : parabora trajectory
 //inverse_state = 2 : inversed
-arrow_sprite #(12'hF00,12'hFFF) arrow_color (.x_in(x),.hcount_in(hcount_in),.y_in(y),.vcount_in(vcount_in),.rotate_in(rotate_in),.next_in(next_in),.pixel_out(pixel_out_buffer),.in_sprite(in_sprite_buffer));
+arrow_sprite #(12'hF00,12'h0CF) arrow_color (.x_in(x),.hcount_in(hcount_in),.y_in(y),.vcount_in(vcount_in),.rotate_in(rotate_in),.next_in(next_in),.pixel_out(pixel_out_buffer),.in_sprite(in_sprite_buffer));
 always_ff @(posedge clk)begin
-	/*if(rst)begin
+	if(rst)begin
 		//pixel_out <= 0;
 		//valid_out <= 0;
-		//hit_player_buffer <= 0;
+		is_hit_once <= 0;
+		hit_player_buffer <= 0;
+		is_hit_buffer <= 0;
 	end
-	else begin*/
+	else begin
 		if(~old_valid_in && valid_in)begin
                 	case(direction_in)
                         	2'b00:begin
@@ -60,7 +63,8 @@ always_ff @(posedge clk)begin
                                 	y <= 384;
                         	end
                 	endcase
-			is_hit <= 0;
+			is_hit_once <= 0;
+			is_hit_buffer <= 0;
 			hit_player_buffer <= 0;
 			inverse_state <= 0;
         	end else if(old_valid_in && valid_in)begin
@@ -71,11 +75,13 @@ always_ff @(posedge clk)begin
 							y <= y + 4;
 							if (y >= 274 && inversed_in == 1)
 								inverse_state <= 1;
-							if(rotate_in == 2'b00 && y >= 288 && y <= 320 && ~is_hit)begin
-                                                        	is_hit <= 1;
+							if(rotate_in == 2'b00 && y >= 288 && y <= 320 && ~is_hit_once)begin
+								is_hit_once <= 1;
+                                                        	is_hit_buffer <= 1;
                                                 	end
-                                                	else if(y >= 384 && ~is_hit)begin
-                                                        	is_hit <= 1;
+                                                	else if(y >= 384 && ~is_hit_once)begin
+								is_hit_once <= 1;
+                                                        	is_hit_buffer <= 1;
                                                         	hit_player_buffer <= 1;
                                                         //hit_player <= 1;
                                                 	end
@@ -105,28 +111,31 @@ always_ff @(posedge clk)begin
 						end
 						else if(inverse_state == 2)begin
 							y <= y - 4;
-							if(rotate_in == 2'b01 && y <= 440 && y >= 432 && ~is_hit)begin
-                                                        	is_hit <= 1;
+							if(rotate_in == 2'b01 && y <= 440 && y >= 432 && ~is_hit_once)begin
+								is_hit_once <= 1;
+                                                        	is_hit_buffer <= 1;
                                                 	end
-                                                	else if(y <= 384 && ~is_hit)begin
-                                                        	is_hit <= 1;
+                                                	else if(y <= 384 && ~is_hit_once)begin
+								is_hit_once <= 1;
+                                                        	is_hit_buffer <= 1;
                                                         	hit_player_buffer <= 1;
                                                 	end
 						end
 
                                	 	end
                                 	2'b01:begin
-                                        	y <= y - 4;
 						if(inverse_state == 0)begin
 							y <= y - 4;
 							if(y <= 494 && inversed_in == 1)begin
 								inverse_state <= 1;
 							end
-							if(rotate_in == 2'b01 && y <= 440 && y >= 432 && ~is_hit)begin
-                                                                is_hit <= 1;
+							if(rotate_in == 2'b01 && y <= 440 && y >= 432 && ~is_hit_once)begin
+								is_hit_once <= 1;
+                                                                is_hit_buffer <= 1;
                                                         end
-                                                        else if(y <= 384 && ~is_hit)begin
-                                                                is_hit <= 1;
+                                                        else if(y <= 384 && ~is_hit_once)begin
+								is_hit_once <= 1;
+                                                                is_hit_buffer <= 1;
                                                                 hit_player_buffer <= 1;
                                                         end
 						end
@@ -147,39 +156,102 @@ always_ff @(posedge clk)begin
 						end
 						else if(inverse_state == 2)begin
 							y <= y + 4;
-							if(rotate_in == 2'b01 && y >= 288 && y <= 320 && ~is_hit)begin
-                                                                is_hit <= 1;
+							if(rotate_in == 2'b01 && y >= 288 && y <= 320 && ~is_hit_once)begin
+								is_hit_once <= 1;
+                                                                is_hit_buffer <= 1;
                                                         end
-                                                        else if(y >= 384 && ~is_hit)begin
-                                                                is_hit <= 1;
+                                                        else if(y >= 384 && ~is_hit_once)begin
+								is_hit_once <= 1;
+                                                                is_hit_buffer <= 1;
                                                                 hit_player_buffer <= 1;
-                                                        //hit_player <= 1;
                                                         end
 						end
                                 	end
                                 	2'b10:begin
-                                        	x <= x + 4;
-						if(rotate_in == 2'b11 && x >= 448 && x <= 480 && ~is_hit)begin
-							is_hit <= 1;
+						if(inverse_state == 0)begin
+							x <= x + 4;
+							if(x >= 402 && inverse_state == 0)
+								inverse_state <= 1;
+							if(rotate_in == 2'b11 && x >= 448 && x <= 480 && ~is_hit_once)begin
+                                                        	is_hit_once <= 1;
+                                                        	is_hit_buffer <= 1;
+                                                	end
+                                                	if(x >= 512 && ~is_hit_once)begin
+                                                        	is_hit_once <= 1;
+                                                        	is_hit_buffer <= 1;
+                                                        	hit_player_buffer <= 1;
+                                                	end
 						end
-						if(x >= 512 && ~is_hit)begin
-							is_hit <= 1;
-							hit_player_buffer <= 1;
+						else if(inverse_state == 1)begin
+							x <= x + 8;
+							if(y >= 385)
+								inverse_state <= 2;
+							else begin
+								if(x <= 512)
+									y <= 289 + ((512-x)>>4)*((512-x)>>3);
+								else if(x > 512)
+									y <= 289 + ((x-512)>>4)*((x-512)>>3);
+							end
+						end
+						else if(inverse_state == 2)begin
+							x <= x - 4;
+							if(rotate_in == 2'b10 && x <= 568 && x >= 536 && ~is_hit_once)begin
+                                                        	is_hit_once <= 1;
+                                                        	is_hit_buffer <= 1;
+                                                	end
+                                                	else if(x <= 512 && ~is_hit_once)begin
+                                                        	is_hit_once <= 1;
+                                                        	is_hit_buffer <= 1;
+                                                        	hit_player_buffer <= 1;
+                                                	end
 						end
                                 	end
                                 	2'b11:begin
-                                        	x <= x - 4;
-						if(rotate_in == 2'b10 && x <= 568 && x >= 536 && ~is_hit)begin
-							is_hit <= 1;
+						if(inverse_state == 0)begin
+							x <= x - 4;
+							if(x <= 522)
+								inverse_state <= 1;
+                                                	if(rotate_in == 2'b10 && x <= 568 && x >= 536 && ~is_hit_once)begin
+                                                        	is_hit_once <= 1;
+                                                        	is_hit_buffer <= 1;
+                                                	end
+                                                	else if(x <= 512 && ~is_hit_once)begin
+                                                        	is_hit_once <= 1;
+                                                        	is_hit_buffer <= 1;
+                                                        	hit_player_buffer <= 1;
+                                                	end
 						end
-						else if(x <= 512 && ~is_hit)begin
-							is_hit <= 1;
-							hit_player_buffer <= 1;
+						else if(inverse_state == 1)begin
+							x <= x - 8;
+							if(y >= 385)
+								inverse_state <= 2;
+							else begin
+								if(x <= 512)
+                                                                        y <= 289 + ((512-x)>>4)*((512-x)>>3);
+                                                                else if(x > 512)
+                                                                        y <= 289 + ((x-512)>>4)*((x-512)>>3);
+							end
+						end
+						else if(inverse_state == 2)begin
+							x <= x + 4;
+							if(x >= 402 && inverse_state == 0)
+                                                                inverse_state <= 1;
+                                                        if(rotate_in == 2'b11 && x >= 448 && x <= 480 && ~is_hit_once)begin
+                                                                is_hit_once <= 1;
+                                                                is_hit_buffer <= 1;
+                                                        end
+                                                        if(x >= 512 && ~is_hit_once)begin
+                                                                is_hit_once <= 1;
+                                                                is_hit_buffer <= 1;
+                                                                hit_player_buffer <= 1;
+                                                        end
+							
 						end
                                 	end
                         	endcase
                 	end
 		end
+	end
 		/*if(hit_player_buffer)
 			hit_player_buffer <= 0;*/
 	//end
@@ -189,8 +261,11 @@ always_ff @(posedge clk)begin
 	old_valid_in <= valid_in;
 	if(hit_player_buffer)
 		hit_player_buffer <= 0;
+	if(is_hit_buffer)
+		is_hit_buffer <= 0;
 end
-assign valid_out = (valid_in && ~is_hit) ? /*((hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT))*/in_sprite_buffer : 0;
+assign is_hit = is_hit_buffer;
+assign valid_out = (valid_in && ~is_hit_once) ? /*((hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT))*/in_sprite_buffer : 0;
 assign hit_player = hit_player_buffer;
 /*always_comb begin
 	valid_out_buffer = (hcount_in >= x) && (hcount_in <= x+WIDTH) && (vcount_in >= y) && (vcount_in <= y+HEIGHT);

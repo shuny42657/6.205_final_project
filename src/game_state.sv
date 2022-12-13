@@ -96,7 +96,7 @@ logic player_busy_out;
 logic player_finish_out,old_player_finish_out;
 logic[11:0] player_pixel_out;
 logic game_over_busy_out;
-logic game_over_finish_out,old_game_over_finish_out;
+logic game_over_finish_out;
 
 /*game_over go(
 	.clk(clk),
@@ -183,7 +183,6 @@ always_ff @(posedge clk)begin
 		state_out <= 4'b0000;
 		old_enemy_finish_out <= 0;
 		old_menu_finish_out <= 0;
-		old_game_over_finish_out <= 0;
 		round_rst <= 0;
 		fall_apart_valid_in <= 0;
 		timing_count <= 0;
@@ -197,7 +196,6 @@ always_ff @(posedge clk)begin
 		old_enemy_finish_out <= 0;
 		old_menu_finish_out <= 0;
 		old_player_finish_out <= 0;
-		old_game_over_finish_out <= 0;
 		round_rst <= 0;
 		fall_apart_valid_in <= 0;
 		timing_count <= 0;
