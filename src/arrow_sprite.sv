@@ -42,7 +42,7 @@ module arrow_sprite #(parameter TARGET_COLOR = 12'hF00,NONTARGET_COLOR = 12'hFF0
 			 else
 				 in_sprite_buffer = 0;
 		 end
-		 2'b10:begin
+		 2'b11:begin
 			 if(relative_x >= 0 && relative_x <= 31 && relative_y >= 0 && relative_y <= 15)begin
 				 modified_x = 31 - relative_x;
                                  in_sprite_buffer = pixel_bram[modified_x][relative_y];
@@ -50,7 +50,7 @@ module arrow_sprite #(parameter TARGET_COLOR = 12'hF00,NONTARGET_COLOR = 12'hFF0
                          else
                                  in_sprite_buffer = 0;
 		 end
-		 2'b11:begin
+		 2'b10:begin
 			 if(relative_x >= 0 && relative_x <= 31 && relative_y >= 0 && relative_y <= 15)begin
                                  in_sprite_buffer = pixel_bram[relative_x][relative_y];
                          end

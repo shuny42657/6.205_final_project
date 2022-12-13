@@ -63,7 +63,10 @@ logic[4:0] flash_count;
 always_comb begin
         if(busy_out_buffer == 1)begin
 		if(frame_moving == 0)
-			pixel_out = frame_bottom_pixel + frame_top_pixel + frame_left_pixel + frame_right_pixel + attack_bar_pixel + enemy_health_bar_out +  attack_board_pixel;
+			if(attack_bar_out)
+				pixel_out = frame_bottom_pixel + frame_top_pixel + frame_left_pixel + frame_right_pixel + attack_bar_pixel + enemy_health_bar_out;
+			else
+				pixel_out = frame_bottom_pixel + frame_top_pixel + frame_left_pixel + frame_right_pixel + attack_bar_pixel + enemy_health_bar_out +  attack_board_pixel;
 		else
 			pixel_out = frame_bottom_pixel + frame_top_pixel + frame_left_pixel + frame_right_pixel;
         end

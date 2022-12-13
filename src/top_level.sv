@@ -231,7 +231,7 @@ vga vga_gen(
 //Thresholder: Takes in the full RGB and YCrCb information and
   //based on upper and lower bounds masks
   //module has 0 cycle latency
-  threshold( .sel_in(/*sw[5:3]*/3'b101),
+  threshold( .sel_in(sw[5:3]/*3'b101*/),
      .r_in(full_pixel[15:12]), //TODO: needs to use pipelined signal (PS5)
      .g_in(full_pixel[10:7]),  //TODO: needs to use pipelined signal (PS5)
      .b_in(full_pixel[4:1]),   //TODO: needs to use pipelined signal (PS5)

@@ -30,7 +30,7 @@ logic state_rst;
 logic damage_out;
 logic game_over_out,old_game_over_out;
 //assign state_out = 4'b1000;
-assign turn_out = 4'b0000;
+//assign turn_out = 4'b0000;
 assign state_rst = round_rst || rst;
 
 logic[11:0] undyne_pixel_out;
@@ -46,6 +46,19 @@ logic[1:0] hp_out;
 
 fonts #(408,588) H(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(hp_pixel_out[0]),.in_sprite(hp_out[0]));
 fonts #(436,588) P(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01001),.color_in(12'hFFF),.scale_in(1),.pixel_out(hp_pixel_out[1]),.in_sprite(hp_out[1]));
+
+logic[11:0] name_lv_pixel_out[7:0];
+logic[7:0] name_lv_out;
+
+/*fonts #(128,588) name_s(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
+fonts #(156,588) name_h(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
+fonts #(184,588) name_u(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
+fonts #(212,588) name_n(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
+fonts #(128,588) lv_l(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
+fonts #(128,588) lv_l(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
+fonts #(128,588) lv_1(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
+fonts #(128,588) lv_0(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))*/
+
 
 enemy en(
 	.clk(clk),
@@ -181,6 +194,7 @@ always_ff @(posedge clk)begin
 	if(rst)begin
 		//game_over_out <= 0;
 		state_out <= 4'b0000;
+		turn_out <= 0;
 		old_enemy_finish_out <= 0;
 		old_menu_finish_out <= 0;
 		round_rst <= 0;
@@ -252,6 +266,7 @@ always_ff @(posedge clk)begin
                         if(old_enemy_finish_out != enemy_finish_out && enemy_finish_out)begin
                                 //shift to next state
                                 //state_out <= 4'b0001;
+				turn_out <= turn_out + 1;
                                 round_rst <= 1;
                         end
                         if(old_menu_finish_out != menu_finish_out && menu_finish_out)begin

@@ -34,7 +34,7 @@ logic[11:0] pixel_out_buffer;
 //inverse_state = 0 : normal
 //inverse_state = 1 : parabora trajectory
 //inverse_state = 2 : inversed
-arrow_sprite #(12'hF00,12'h0CF) arrow_color (.x_in(x),.hcount_in(hcount_in),.y_in(y),.vcount_in(vcount_in),.rotate_in(rotate_in),.next_in(next_in),.pixel_out(pixel_out_buffer),.in_sprite(in_sprite_buffer));
+arrow_sprite #(12'hF00,12'h0CF) arrow_color (.x_in(x),.hcount_in(hcount_in),.y_in(y),.vcount_in(vcount_in),.rotate_in(direction_in),.next_in(next_in),.pixel_out(pixel_out_buffer),.in_sprite(in_sprite_buffer));
 always_ff @(posedge clk)begin
 	if(rst)begin
 		//pixel_out <= 0;
@@ -52,14 +52,14 @@ always_ff @(posedge clk)begin
                         	end
                         	2'b01:begin
                                 	x <= 512;
-                                	y <= 720;
+                                	y <= 767;
                         	end
                         	2'b10:begin
-                                	x <= 0;
+                                	x <= 128;
                                 	y <= 384;
                         	end
                         	2'b11:begin
-                                	x <= 1024;
+                                	x <= 896;
                                 	y <= 384;
                         	end
                 	endcase
@@ -70,9 +70,9 @@ always_ff @(posedge clk)begin
         	end else if(old_valid_in && valid_in)begin
                 	if(hcount_in == 0 && vcount_in == 0)begin
                         	case(direction_in)
-					2'b00:begin
+					2'b00:begin//top
 						if(inverse_state == 0)begin
-							y <= y + 4;
+							y <= y + speed_in;
 							if (y >= 274 && inversed_in == 1)
 								inverse_state <= 1;
 							if(rotate_in == 2'b00 && y >= 288 && y <= 320 && ~is_hit_once)begin
@@ -87,7 +87,7 @@ always_ff @(posedge clk)begin
                                                 	end
 						end
 						else if(inverse_state == 1)begin
-							y <= y + 8;
+							y <= y + speed_in*2;
 							if(x <= 511)begin
 								inverse_state <= 2;
 							end else begin
@@ -110,8 +110,8 @@ always_ff @(posedge clk)begin
 							end*/
 						end
 						else if(inverse_state == 2)begin
-							y <= y - 4;
-							if(rotate_in == 2'b01 && y <= 440 && y >= 432 && ~is_hit_once)begin
+							y <= y - speed_in;
+							if(rotate_in == 2'b01 && y <= 440 && y >= 408 && ~is_hit_once)begin
 								is_hit_once <= 1;
                                                         	is_hit_buffer <= 1;
                                                 	end
@@ -123,13 +123,13 @@ always_ff @(posedge clk)begin
 						end
 
                                	 	end
-                                	2'b01:begin
+                                	2'b01:begin//bottom
 						if(inverse_state == 0)begin
-							y <= y - 4;
+							y <= y - speed_in;
 							if(y <= 494 && inversed_in == 1)begin
 								inverse_state <= 1;
 							end
-							if(rotate_in == 2'b01 && y <= 440 && y >= 432 && ~is_hit_once)begin
+							if(rotate_in == 2'b01 && y <= 440 && y >= 408 && ~is_hit_once)begin
 								is_hit_once <= 1;
                                                                 is_hit_buffer <= 1;
                                                         end
@@ -140,7 +140,7 @@ always_ff @(posedge clk)begin
                                                         end
 						end
 						else if(inverse_state == 1)begin
-							y <= y - 8;
+							y <= y - speed_in*2;
 							if(x >= 513)begin
 								inverse_state <= 2;
 							end
@@ -155,8 +155,8 @@ always_ff @(posedge clk)begin
 
 						end
 						else if(inverse_state == 2)begin
-							y <= y + 4;
-							if(rotate_in == 2'b01 && y >= 288 && y <= 320 && ~is_hit_once)begin
+							y <= y + speed_in;
+							if(rotate_in == 2'b00 && y >= 288 && y <= 320 && ~is_hit_once)begin
 								is_hit_once <= 1;
                                                                 is_hit_buffer <= 1;
                                                         end
@@ -167,10 +167,10 @@ always_ff @(posedge clk)begin
                                                         end
 						end
                                 	end
-                                	2'b10:begin
+                                	2'b10:begin//right
 						if(inverse_state == 0)begin
-							x <= x + 4;
-							if(x >= 402 && inverse_state == 0)
+							x <= x + speed_in;
+							if(x >= 402 && inversed_in == 1)
 								inverse_state <= 1;
 							if(rotate_in == 2'b11 && x >= 448 && x <= 480 && ~is_hit_once)begin
                                                         	is_hit_once <= 1;
@@ -183,7 +183,7 @@ always_ff @(posedge clk)begin
                                                 	end
 						end
 						else if(inverse_state == 1)begin
-							x <= x + 8;
+							x <= x + speed_in*2;
 							if(y >= 385)
 								inverse_state <= 2;
 							else begin
@@ -194,7 +194,7 @@ always_ff @(posedge clk)begin
 							end
 						end
 						else if(inverse_state == 2)begin
-							x <= x - 4;
+							x <= x - speed_in;
 							if(rotate_in == 2'b10 && x <= 568 && x >= 536 && ~is_hit_once)begin
                                                         	is_hit_once <= 1;
                                                         	is_hit_buffer <= 1;
@@ -206,10 +206,10 @@ always_ff @(posedge clk)begin
                                                 	end
 						end
                                 	end
-                                	2'b11:begin
+                                	2'b11:begin//left
 						if(inverse_state == 0)begin
-							x <= x - 4;
-							if(x <= 522)
+							x <= x - speed_in;
+							if(x <= 622 && inversed_in == 1)
 								inverse_state <= 1;
                                                 	if(rotate_in == 2'b10 && x <= 568 && x >= 536 && ~is_hit_once)begin
                                                         	is_hit_once <= 1;
@@ -222,7 +222,7 @@ always_ff @(posedge clk)begin
                                                 	end
 						end
 						else if(inverse_state == 1)begin
-							x <= x - 8;
+							x <= x - speed_in*2;
 							if(y >= 385)
 								inverse_state <= 2;
 							else begin
@@ -233,7 +233,7 @@ always_ff @(posedge clk)begin
 							end
 						end
 						else if(inverse_state == 2)begin
-							x <= x + 4;
+							x <= x + speed_in;
 							if(x >= 402 && inverse_state == 0)
                                                                 inverse_state <= 1;
                                                         if(rotate_in == 2'b11 && x >= 448 && x <= 480 && ~is_hit_once)begin
