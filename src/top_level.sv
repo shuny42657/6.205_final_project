@@ -289,7 +289,7 @@ image_sprite #(
     .pixel_out(com_sprite_pixel));
 logic[11:0] cursor_pixel_out;
 logic cursor_out;
-block_sprite #(8,8,128,128,12'hFFF) cursor (.is_fixed(0),.x_in(x_com + 352),.hcount_in(hcount),.y_in(y_com),.vcount_in(vcount),.pixel_out(cursor_pixel_out),.in_sprite(cursor_out));
+block_sprite #(8,8,128,128,12'hFFF) cursor (.is_fixed(0),.x_in(x_com + 352),.hcount_in(hcount),.y_in(y_com+142),.vcount_in(vcount),.pixel_out(cursor_pixel_out),.in_sprite(cursor_out));
 //Create Crosshair patter on center of mass:
   //0 cycle latency
   assign crosshair = ((vcount==y_com)||(hcount==x_com));;

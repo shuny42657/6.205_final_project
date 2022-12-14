@@ -34,7 +34,7 @@ logic[11:0] pixel_out_buffer;
 //inverse_state = 0 : normal
 //inverse_state = 1 : parabora trajectory
 //inverse_state = 2 : inversed
-arrow_sprite #(12'hF00,12'h0CF) arrow_color (.x_in(x),.hcount_in(hcount_in),.y_in(y),.vcount_in(vcount_in),.rotate_in(direction_in),.next_in(next_in),.pixel_out(pixel_out_buffer),.in_sprite(in_sprite_buffer));
+arrow_sprite #(12'hF00,12'h0CF,12'hFF0) arrow_color (.x_in(x),.hcount_in(hcount_in),.y_in(y),.vcount_in(vcount_in),.rotate_in(direction_in),.next_in(next_in),.inversed_in(inversed_in),.pixel_out(pixel_out_buffer),.in_sprite(in_sprite_buffer));
 always_ff @(posedge clk)begin
 	if(rst)begin
 		//pixel_out <= 0;

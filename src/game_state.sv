@@ -44,20 +44,20 @@ logic[10:0] enemy_hp_left_out;
 logic[11:0] hp_pixel_out[1:0];
 logic[1:0] hp_out;
 
-fonts #(408,588) H(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(hp_pixel_out[0]),.in_sprite(hp_out[0]));
-fonts #(436,588) P(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01001),.color_in(12'hFFF),.scale_in(1),.pixel_out(hp_pixel_out[1]),.in_sprite(hp_out[1]));
+fonts #(408,588) H(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(6'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(hp_pixel_out[0]),.in_sprite(hp_out[0]));
+fonts #(436,588) P(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(6'b01001),.color_in(12'hFFF),.scale_in(1),.pixel_out(hp_pixel_out[1]),.in_sprite(hp_out[1]));
 
 logic[11:0] name_lv_pixel_out[7:0];
 logic[7:0] name_lv_out;
 
-/*fonts #(128,588) name_s(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
-fonts #(156,588) name_h(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
-fonts #(184,588) name_u(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
-fonts #(212,588) name_n(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
-fonts #(128,588) lv_l(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
-fonts #(128,588) lv_l(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
-fonts #(128,588) lv_1(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
-fonts #(128,588) lv_0(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(5'b01000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))*/
+fonts #(128,588) name_s(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(6'b100001),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[0]),.in_sprite(name_lv_out[0]))
+fonts #(156,588) name_h(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(6'b001000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[1]),.in_sprite(name_lv_out[1]))
+fonts #(184,588) name_u(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(6'b100010),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[2]),.in_sprite(name_lv_out[2]))
+fonts #(212,588) name_n(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(6'b100011),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[3]),.in_sprite(name_lv_out[3]))
+fonts #(260,588) lv_l(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(6'b001011),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[4]),.in_sprite(name_lv_out[4]))
+fonts #(288,588) lv_l(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(6'b000110),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[5]),.in_sprite(name_lv_out[5]))
+fonts #(336,588) lv_1(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(6'b011000),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[6]),.in_sprite(name_lv_out[6]))
+fonts #(354,588) lv_0(.hcount_in(hcount_in),.vcount_in(vcount_in),.valid_in(1),.letter_in(6'b010111),.color_in(12'hFFF),.scale_in(1),.pixel_out(name_lv_pixel_out[7]),.in_sprite(name_lv_out[7]))
 
 
 enemy en(
@@ -194,7 +194,7 @@ always_ff @(posedge clk)begin
 	if(rst)begin
 		//game_over_out <= 0;
 		state_out <= 4'b0000;
-		turn_out <= 0;
+		turn_out <= 3;
 		old_enemy_finish_out <= 0;
 		old_menu_finish_out <= 0;
 		round_rst <= 0;
@@ -266,7 +266,10 @@ always_ff @(posedge clk)begin
                         if(old_enemy_finish_out != enemy_finish_out && enemy_finish_out)begin
                                 //shift to next state
                                 //state_out <= 4'b0001;
-				turn_out <= turn_out + 1;
+				if(turn_out == 8)
+					turn_out <= 0;
+				else
+					turn_out <= turn_out + 1;
                                 round_rst <= 1;
                         end
                         if(old_menu_finish_out != menu_finish_out && menu_finish_out)begin

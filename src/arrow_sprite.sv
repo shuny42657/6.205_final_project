@@ -1,8 +1,9 @@
-module arrow_sprite #(parameter TARGET_COLOR = 12'hF00,NONTARGET_COLOR = 12'hFF0)(
+module arrow_sprite #(parameter TARGET_COLOR = 12'hF00,NONTARGET_COLOR = 12'hFF0,INVERSE_COLOR = 12'hFF0)(
   input wire [10:0] x_in, hcount_in,
   input wire [9:0]  y_in, vcount_in,
   input wire [1:0] rotate_in,
   input wire next_in,
+  input wire inversed_in,
   output logic [11:0] pixel_out,
   output logic in_sprite);
 
@@ -23,7 +24,10 @@ module arrow_sprite #(parameter TARGET_COLOR = 12'hF00,NONTARGET_COLOR = 12'hFF0
 		  else
 			  pixel_bram[i] = (16'hFFFF << (i-24)*2) >> (i-24);
 	  end
-	  pixel_out_buffer = next_in ? TARGET_COLOR : NONTARGET_COLOR;
+	  if(inversed_in)
+		  pixel_out_buffer = INVERSE_COLOR;
+	  else
+		  pixel_out_buffer = next_in ? TARGET_COLOR : NONTARGET_COLOR;
 	 relative_x = hcount_in - x_in;
 	 relative_y = vcount_in - y_in;
 	 case(rotate_in)
