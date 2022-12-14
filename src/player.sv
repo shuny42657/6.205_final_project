@@ -137,9 +137,9 @@ always_ff @(posedge clk)begin
 				//finished_out <= 1;
 				bar_stopped <= 1;
 				if(attack_bar_x > 512)
-                                        round_damage <= (400 - (attack_bar_x - 512)) >> 3;
+                                        round_damage <= (400 - (attack_bar_x - 512)) >> 4;
                                 else if(attack_bar_x <= 512)
-                                        round_damage <= (400 - (512 - attack_bar_x)) >> 3;
+                                        round_damage <= (400 - (512 - attack_bar_x)) >> 4;
 
 			end
 			if(hcount_in == 0 && vcount_in == 0)begin

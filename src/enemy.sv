@@ -28,14 +28,15 @@ logic[23:0] inverseds[9:0];
 logic[5:0] arrow_maxes[9:0];
 //patterns
 pattern #(12,72'b010_010_010_010_010_010_010_010_010_111_100_100_100,72'b111_111_111_111_111_111_111_111_111_100_100_100,48'h0000009D89C0,24'h0,0) pattern1(.turn_in(turn_in),.arrows(arrow_maxes[0]),.timing(timings[0]),.speed(speeds[0]),.direction(directions[0]),.inversed(inverseds[0]));
-pattern #(13,72'b100_100_100_100_100_100_100_100_100_100_100_100_100_100,72'b100100100100100100100100100100100100100100,48'b1011101110111110111110101110,24'h0,1) pattern2(.turn_in(turn_in),.arrows(arrow_maxes[1]),.timing(timings[1]),.speed(speeds[1]),.direction(directions[1]),.inversed(inverseds[1]));
-pattern #(9,72'b100_100_100_100_100_100_100_100_100,72'b100100100100100100100100100,48'b010010111001100010,24'h0,2) pattern3(.turn_in(turn_in),.arrows(arrow_maxes[2]),.timing(timings[2]),.speed(speeds[2]),.direction(directions[2]),.inversed(inverseds[2]));
-pattern #(13,72'b100100100100100100100100100100100100100100100100100100100100100,72'b100100100100100100100100100100100100100100100100100100100100100,48'b000000110000001000000011000000001000000000,24'h0,3) pattern4(.turn_in(turn_in),.arrows(arrow_maxes[3]),.timing(timings[3]),.speed(speeds[3]),.direction(directions[3]),.inversed(inverseds[3]));
-pattern #(13,72'b100100100100100100100100100100100100100100100100,72'b100100100100100100100100100100100100100100100100,48'b00100010001000100010001000100010,24'b1111111100000000,4) pattern5(.turn_in(turn_in),.arrows(arrow_maxes[4]),.timing(timings[4]),.speed(speeds[4]),.direction(directions[4]),.inversed(inverseds[4]));
-pattern #(12,72'b100100100100100100100100100100100100,72'b100100100100100100100100100100100100,48'b001110011101100001100011,24'b111100001111,5) pattern6(.turn_in(turn_in),.arrows(arrow_maxes[5]),.timing(timings[5]),.speed(speeds[5]),.direction(directions[5]),.inversed(inverseds[5]));
-pattern #(13,72'b100100100100100100100100100100100100100100100100100100100,72'b100100100100100100100100100100100100100100100100100100100,48'b00011110010011111000011111100111001110,24'b1000100001000010000,6) pattern7(.turn_in(turn_in),.arrows(arrow_maxes[6]),.timing(timings[6]),.speed(speeds[6]),.direction(directions[6]),.inversed(inverseds[6]));
-pattern #(13,72'b100100100100100100100100100100100100100100,72'b100100100100100100100100100100100100100100,48'b1111010110100000111101011010,24'h10101010101010,7) pattern8(.turn_in(turn_in),.arrows(arrow_maxes[7]),.timing(timings[7]),.speed(speeds[7]),.direction(directions[7]),.inversed(inverseds[7]));
-pattern #(13,72'b100100100100100100100100100100100100100100100100100100100100100100100100,72'b100100100100100100100100100100100100100100100100100100100100100100100100,48'b001001010010000010001000001001011011010010011111,24'h0,8) pattern9(.turn_in(turn_in),.arrows(arrow_maxes[8]),.timing(timings[8]),.speed(speeds[8]),.direction(directions[8]),.inversed(inverseds[8]));
+pattern #(14,72'b100_100_100_100_100_010_100_100_100_100_010_100_100_100,72'b110_110_110_110_110_110_110_110_110_110_110_110_110_110,48'b1011101110111110111110101110,24'h0,1) pattern2(.turn_in(turn_in),.arrows(arrow_maxes[1]),.timing(timings[1]),.speed(speeds[1]),.direction(directions[1]),.inversed(inverseds[1]));
+pattern #(18,72'b011_011_011_011_011_011_011_011_011_011_011_011_011_011_011_011_011_011,72'b010010010010010010010010010010010010010010010010010010,48'b011011110010100001111101001011101101,24'h0,2) pattern10(.turn_in(turn_in),.arrows(arrow_maxes[2]),.timing(timings[2]),.speed(speeds[2]),.direction(directions[2]),.inversed(inverseds[2]));
+pattern #(9,72'b100_100_100_100_011_100_100_100_100,72'b100100100100110110100_110_100,48'b010010111001100010,24'h0,3) pattern3(.turn_in(turn_in),.arrows(arrow_maxes[3]),.timing(timings[3]),.speed(speeds[3]),.direction(directions[3]),.inversed(inverseds[3]));
+pattern #(21,72'b010_010_111_010_010_010_111_010_010_010_111_010_010_010_010_111_010_010_010_010_010,72'b111_111_111_100_111_111_111_100_111_111_111_100_111_111_111_111_100_111_111_111_111,48'b000000110000001000000011000000001000000000,24'h0,4) pattern4(.turn_in(turn_in),.arrows(arrow_maxes[4]),.timing(timings[4]),.speed(speeds[4]),.direction(directions[4]),.inversed(inverseds[4]));
+pattern #(16,72'b100100100100100100100100100100100100100100100100,72'b100100100100100100100100100100100100100100100100,48'b00100010001000100010001000100010,24'b1111111100000000,5) pattern5(.turn_in(turn_in),.arrows(arrow_maxes[5]),.timing(timings[5]),.speed(speeds[5]),.direction(directions[5]),.inversed(inverseds[5]));
+pattern #(12,72'b100100100100100100100100100100100100,72'b100100100100100100100100100100100100,48'b001110011101100001100011,24'b111100001111,6) pattern6(.turn_in(turn_in),.arrows(arrow_maxes[6]),.timing(timings[6]),.speed(speeds[6]),.direction(directions[6]),.inversed(inverseds[6]));
+pattern #(19,72'b100100100100100100100100100100100100100100100100100100100,72'b101101101101101101101101101101101101101101101101101101101,48'b00011110010011111000011111100111001110,24'b1000100001000010000,7) pattern7(.turn_in(turn_in),.arrows(arrow_maxes[7]),.timing(timings[7]),.speed(speeds[7]),.direction(directions[7]),.inversed(inverseds[7]));
+pattern #(14,72'b100100100100100100100100100100100100100100,72'b101101101101101101101101101101101101101101,48'b1111010110100000111101011010,24'b10101010101010,8) pattern8(.turn_in(turn_in),.arrows(arrow_maxes[8]),.timing(timings[8]),.speed(speeds[8]),.direction(directions[8]),.inversed(inverseds[8]));
+pattern #(24,72'b011011011011011011011011011011011011011011011011011011011011011011011011,72'b010_010_010_010_010_010_010_010_010_010_010_010_010_010_010_010_010_010_010_010_010_010_010_010,48'b001001010010000010001000001001011011010010011111,24'h0,9) pattern9(.turn_in(turn_in),.arrows(arrow_maxes[9]),.timing(timings[9]),.speed(speeds[9]),.direction(directions[9]),.inversed(inverseds[9]));
 //pattern #(9,72'b100_100_100_100_100_100_100_100_100,72'b100100100100100100100100100,48'b0,24'h0,9) pattern10(.turn_in(turn_in),.arrows(arrow_maxes[9]),.timing(timings[9]),.speed(speeds[9]),.direction(directions[9]),.inversed(inverseds[9]));
 
 logic pattern_valid_1;
@@ -146,6 +147,7 @@ always_ff @(posedge clk)begin
 		old_state_in <= 4'b1010;
 		arrow_count_first <= 0;
 		pattern_ended <= 0;
+		arrow_valid_in <= 0;
 		arrow_count <= 0;
 		next_arrow <= 24'b1;
 		frame_moving <= 0;
@@ -176,6 +178,7 @@ always_ff @(posedge clk)begin
 			//arrow_count_first <= 0;
 			arrow_valid_in <= 24'h000000;
 			old_arrow_valid_out <= arrow_valid_out;
+			arrow_count_first <= 0;
 			arrow_count <= 0;
 			next_arrow <= 24'h000001;
 			frame_moving <= 0;
@@ -204,18 +207,24 @@ always_ff @(posedge clk)begin
                                 	next_arrow <= {next_arrow[22:0],next_arrow[23]};
 					//next_arrow <= next_arrow <<  1;
                         	end
-				if(timings[0][arrow_count_first+:3] == 3'b0)begin
-					if(pattern_ended == 0)
-						pattern_ended <= 1;
+				/*if(timings[0][arrow_count_first+:3] == 3'b0)begin
+					pattern_ended <= 1;
 				end
-				else begin
+				else begin*/
 					timing_count <= timing_count + 1;
-                        		if(timing_count == timings[0][arrow_count_first+:3]*6500000*2)begin
+                        		if(timing_count == timings[turn_in][arrow_count_first+:3]*6500000*2)begin
                                 		arrow_valid_in <= {arrow_valid_in[22:0],1'b1};
                                 		arrow_count_first <= arrow_count_first + 3;
                                 		timing_count <= 0;
                         		end
-				end
+				//end
+			        /*timing_count <= timing_count + 1;
+                                        if(timing_count == timings[turn_in][arrow_count_first+:3]*6500000*2)begin
+                                                arrow_valid_in <= {arrow_valid_in[22:0],1'b1};
+                                                arrow_count_first <= arrow_count_first + 3;
+                                                timing_count <= 0;
+                                        end*/
+
 
 				if(/*arrow_valid_out == 0*/arrow_count == arrow_maxes[turn_in] && frame_moving == 0)begin
 					//finished_out <= 1;
